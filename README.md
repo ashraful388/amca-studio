@@ -13,11 +13,30 @@
   <img src="https://img.shields.io/badge/platform-Windows%20x64-0f172a" alt="platform" />
   <img src="https://img.shields.io/badge/license-MIT-22c55e" alt="MIT License" />
   <img src="https://img.shields.io/badge/local--first-yes-8b5cf6" alt="local-first" />
+  <a href="https://github.com/ashraful388/amca-studio/releases/latest"><img src="https://img.shields.io/badge/%E2%AC%87%20Download-v1.1.21%20installer-4f6ef7" alt="Download the v1.1.21 installer" /></a>
 </p>
 
 **AMCA Studio** is a local-first desktop platform for **Adaptive Multi-Model Collaborative Cognition**: instead of one assistant answering alone, heterogeneous AI models — cloud (Meta, OpenRouter, Anthropic, OpenAI, xAI, Z.ai, Google, Mistral, DeepSeek, Kimi…) and local — are organized into a small, governed team that shares structured working state, challenges claims, requests evidence, and adapts its collaboration style as a task evolves.
 
 Built as a **Tauri 2 + React** desktop client over a **loopback Python** service. Your projects, chats, sources, and decision history live on your machine; model credentials stay in the operating-system vault.
+
+---
+
+## 📥 Download AMCA Studio
+
+> **[⬇️ Download the latest installer](https://github.com/ashraful388/amca-studio/releases/latest)** — always points to the newest release.
+
+**Direct download — v1.1.21:**
+
+- 📦 **[amca-studio-v1.1.21-windows-x64-setup.exe](https://github.com/ashraful388/amca-studio/releases/download/v1.1.21/amca-studio-v1.1.21-windows-x64-setup.exe)** (~40 MB)
+- 🔐 Integrity: SHA-256 `85c2dc8b9b89c2d06f3a04f1ca445f6f5df4828d14c6f95bd60eebd66c7af30a` — see [amca-studio-v1.1.21-SHA256SUMS.txt](https://github.com/ashraful388/amca-studio/releases/download/v1.1.21/amca-studio-v1.1.21-SHA256SUMS.txt), verify with `Get-FileHash .\amca-studio-v1.1.21-windows-x64-setup.exe -Algorithm SHA256`
+- 📚 All releases: [github.com/ashraful388/amca-studio/releases](https://github.com/ashraful388/amca-studio/releases)
+
+**What you need:**
+
+- Windows 10/11 x64 (WebView2 runtime is auto-provisioned by the installer)
+- Your own model API keys (Meta, OpenRouter, Anthropic, OpenAI, xAI, Z.ai, …) — stored in the OS credential vault, never bundled
+- The app creates its own local data directory on first run — no accounts, no sign-up, nothing pre-installed
 
 ---
 
@@ -126,6 +145,16 @@ See [`docs/AMCA-Studio-v0.6.0-Alpha-Release-Notes.md`](docs/AMCA-Studio-v0.6.0-A
 ## License
 
 Released under the [MIT License](LICENSE). Third-party components are covered by the notices in [`licenses/`](licenses).
+
+## 👤 Developer
+
+<p align="center">
+  <strong>Dr. Md. Ashraful Babu</strong><br/>
+  Associate Professor<br/>
+  Department of Physical Sciences<br/>
+  <a href="https://www.iub.edu.bd">Independent University, Bangladesh</a><br/>
+  Dhaka, Bangladesh
+</p>
 
 ---
 
