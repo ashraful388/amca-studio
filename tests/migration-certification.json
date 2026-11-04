@@ -1,0 +1,9 @@
+{
+  "schema": "amca-migration-certification/1",
+  "certification_authority": "AMCA ChatGPT Manager",
+  "overall_verdict": "PASS",
+  "certified_sha": "22b3268e10cfe428ec5959c6ab52d086bd79872a",
+  "upgrade_result": "PASS",
+  "evidence": "D:\\ChatGPT\\AMCA\\.agent-tmp\\smoke\\h2c2e-upgrade-reexecution-evidence.json",
+  "summary": "genuine frozen-v1.0.0 -> v1.0.1 upgrade re-executed with pre/post installer hashing; bridge activated; legacy identity removed; user data preserved; one AMCA Studio 1.0.1 remains; no port 8765 conflict"
+}

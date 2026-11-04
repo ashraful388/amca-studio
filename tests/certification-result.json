@@ -1,0 +1,79 @@
+{
+  "backend": {
+    "sha": "7bbf34b781d851c1fda1d0e8c5675646327be95b"
+  },
+  "blocked_reasons": [
+    "regression evidence missing (--skip-regression used)",
+    "backend result absent"
+  ],
+  "build": {
+    "returncode": null
+  },
+  "certification": {
+    "audit_only": true,
+    "branch": "amca-v1.1.9-dev",
+    "clean": false,
+    "command": "python scripts/run_canonical_certification.py",
+    "dirty": true,
+    "sha": "7bbf34b781d851c1fda1d0e8c5675646327be95b"
+  },
+  "exclusions": {
+    "all_explained": true,
+    "review_center_marked_temporary": false,
+    "unexplained": {}
+  },
+  "frontend": {
+    "sha": "7bbf34b781d851c1fda1d0e8c5675646327be95b"
+  },
+  "gates": {
+    "all_pass": false,
+    "gates": {
+      "backend_failures_zero": true,
+      "build_pass": false,
+      "collection_errors_zero": true,
+      "frontend_failures_zero": true,
+      "typescript_pass": false
+    }
+  },
+  "generated_at": "2026-09-25T02:51:08.339989+00:00",
+  "harness_returncode": null,
+  "overall_verdict": "BLOCKED",
+  "provenance": {
+    "branch": "amca-v1.1.9-dev",
+    "clean": false,
+    "dirty": true,
+    "sha": "7bbf34b781d851c1fda1d0e8c5675646327be95b"
+  },
+  "same_sha": {
+    "all_match": true,
+    "sources": {
+      "backend_sha": "7bbf34b781d851c1fda1d0e8c5675646327be95b",
+      "build_sha": null,
+      "frontend_sha": "7bbf34b781d851c1fda1d0e8c5675646327be95b",
+      "provenance_sha": "7bbf34b781d851c1fda1d0e8c5675646327be95b",
+      "version_contract_sha": null
+    }
+  },
+  "typescript": {
+    "returncode": null
+  },
+  "verdict_detail": "same-SHA OK; gates FAIL; version FAIL; exclusions OK; tree OK",
+  "version_contract": {
+    "consistent": false,
+    "expected": "0.9.0",
+    "mismatches": {
+      "desktop-ui/package.json": "1.1.10",
+      "desktop-ui/src-tauri/Cargo.toml": "1.1.10",
+      "desktop-ui/src-tauri/tauri.conf.json": "1.1.10",
+      "pyproject.toml": "1.1.10",
+      "src/amca/__init__.py": "1.1.10"
+    },
+    "observed": {
+      "desktop-ui/package.json": "1.1.10",
+      "desktop-ui/src-tauri/Cargo.toml": "1.1.10",
+      "desktop-ui/src-tauri/tauri.conf.json": "1.1.10",
+      "pyproject.toml": "1.1.10",
+      "src/amca/__init__.py": "1.1.10"
+    }
+  }
+}

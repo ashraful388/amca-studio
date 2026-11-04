@@ -1,0 +1,63 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "AMCA Studio",
+  "version": "1.1.21",
+  "identifier": "ai.amca.desktop",
+  "build": {
+    "beforeDevCommand": "npm.cmd run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm.cmd run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "AMCA \u2014 Collaborative Cognition",
+        "width": 1440,
+        "height": 920,
+        "minWidth": 900,
+        "minHeight": 680,
+        "center": true,
+        "dragDropEnabled": false,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src 'self' http://127.0.0.1:8765 ipc: http://ipc.localhost; img-src 'self' asset: http://asset.localhost data: blob: http: https:; style-src 'self' 'unsafe-inline' http: https:; font-src 'self' data: http: https:; frame-src http: https:"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "nsis"
+    ],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": {
+      "../../backend-dist/amca-backend.exe": "amca-backend.exe",
+      "../../licenses/THIRD_PARTY_NOTICES.txt": "licenses/THIRD_PARTY_NOTICES.txt",
+      "../../licenses/THIRD_PARTY_LICENSES.txt": "licenses/THIRD_PARTY_LICENSES.txt",
+      "../../licenses/MPL_SOURCE_AVAILABILITY_NOTICE.txt": "licenses/MPL_SOURCE_AVAILABILITY_NOTICE.txt",
+      "../../docs/release/assets/MPL-2.0-certifi-2026.7.22.txt": "THIRD-PARTY-NOTICES/MPL-2.0-certifi-2026.7.22.txt"
+    },
+    "category": "Productivity",
+    "shortDescription": "Local-first collaborative cognition workspace",
+    "longDescription": "AMCA coordinates local and frontier reasoning models around a shared, auditable cognitive state.",
+    "windows": {
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper",
+        "silent": true
+      },
+      "nsis": {
+        "installerHooks": "./hooks.nsh",
+        "template": "./nsis/installer.nsi"
+      }
+    }
+  }
+}

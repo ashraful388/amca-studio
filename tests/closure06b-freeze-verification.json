@@ -1,0 +1,17 @@
+{
+  "phase": "CORRECTED_FUNCTIONAL_BASELINE_FREEZE_06B",
+  "results": {
+    "HEAD_IS_F4020F3F": false,
+    "WORKING_TREE_CLEAN": true,
+    "7148_ANCESTOR_OF_F402": true,
+    "TAG_22B3268E_UNCHANGED": true,
+    "OFFICIAL_HASHES": {
+      ".zip": "feff399f",
+      ".exe": "b072d69a",
+      ".msi": "60da557f"
+    },
+    "HASHES_UNCHANGED": true,
+    "CLOUD_PROVIDER_COUNT_CONFIGURED": 0,
+    "OLLAMA_STORE_PRESENT": true
+  }
+}

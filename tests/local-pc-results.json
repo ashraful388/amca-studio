@@ -1,0 +1,246 @@
+[
+ {
+  "test_id": "BOOT",
+  "feature": "backend",
+  "actual": "test backend healthy (frozen baseline payload)",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "SESSION",
+  "feature": "session bootstrap",
+  "actual": "token=present",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "PROJECT",
+  "feature": "project bootstrap",
+  "actual": "proj=desktop-20a501afdffd",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "GRANT",
+  "feature": "path grant",
+  "actual": "grant=grant.13a1a007804f4a",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "FS-CREATE",
+  "feature": "file create",
+  "actual": "200 {'result': {'action': 'create', 'grant_id': 'grant.13a1a007804f4aa28be9ded040a9a",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "FS-READ",
+  "feature": "file read",
+  "actual": "200 content_match=True",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "FS-EDIT",
+  "feature": "file edit (approved overwrite)",
+  "actual": "200 edited=True",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "FS-APPEND",
+  "feature": "file append (approved)",
+  "actual": "200 appended=True",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "FS-COPY",
+  "feature": "file copy",
+  "actual": "200 exists=True",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "FS-MOVE",
+  "feature": "file move into new dir (approved)",
+  "actual": "200 moved=True",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "FS-RENAME",
+  "feature": "file rename via approved move",
+  "actual": "200 renamed=True",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "FS-LIST",
+  "feature": "directory list",
+  "actual": "200",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "FS-SEARCH",
+  "feature": "directory search",
+  "actual": "200",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "FS-MKDIR",
+  "feature": "directory create",
+  "actual": "200 dir=True",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "FS-INVALID-PATH",
+  "feature": "invalid path handled",
+  "actual": "400",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "FS-ESCAPE",
+  "feature": "path escape attempt blocked",
+  "actual": "403",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "FS-UNAUTHORIZED",
+  "feature": "unauthorized path (C:/Windows) refused",
+  "actual": "403",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "FS-DELETE",
+  "feature": "delete via approved trash",
+  "actual": "200 gone=True",
+  "verdict": "PASS",
+  "evidence": {
+   "approval": "b1bf79dd27494d2da27df4b7cf87ad30"
+  }
+ },
+ {
+  "test_id": "CMD-RUN",
+  "feature": "command execution",
+  "actual": "status=completed stdout='git version 2.55.0.windows.3\\n'",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "CMD-INVALID",
+  "feature": "shell interpreter refused by policy",
+  "actual": "{'error': 'shell interpreters are refused in bounded argv'}",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "CMD-TIMEOUT",
+  "feature": "real timeout",
+  "actual": "status=timeout truncated=True",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "CMD-CANCEL",
+  "feature": "real cancellation, no orphan",
+  "actual": "cancel=cancelled ping_orphans=0",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "APP-LAUNCH",
+  "feature": "launch allowed app",
+  "actual": "pid=27748",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "APP-INSPECT",
+  "feature": "inspect PID/process",
+  "actual": "pid=27748",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "APP-TERMINATE",
+  "feature": "terminate launched instance",
+  "actual": "{'operation': 'terminate', 'application': 'Notepad', 'pid': 27748, 'exit_code': ",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "APP-UNAUTHORIZED",
+  "feature": "unauthorized executable rejected",
+  "actual": "{'error': \"approved-tier commands must match a reviewed allowlist policy; no policy accepts this arg",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "BROWSER",
+  "feature": "governed browser open",
+  "actual": "open_status=200 payload={'operation': 'open', 'browser': 'Microsoft Edge', 'url': 'http://127.0.0.1:55029/api/health', 'pid': 876, 'status': 'ru",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "BROWSER-CLOSE",
+  "feature": "governed browser close",
+  "actual": "close_status=200",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "PERM-DENY",
+  "feature": "deny decision recorded",
+  "actual": "status=denied",
+  "verdict": "PASS",
+  "evidence": {
+   "decision": "{'approval': {'id': 'decc195307724d5292da7ec2bc7842f5', 'project_id': 'desktop-20a501afdffd', 'action': 'local_file_modify', 'scope': {'grant_id': 'grant.13a1a0"
+  }
+ },
+ {
+  "test_id": "PERM-DENY-EXEC",
+  "feature": "denied approval cannot overwrite existing file",
+  "actual": "403 unchanged=True payload={'error': 'approval is not active'}",
+  "verdict": "PASS",
+  "evidence": {
+   "status": 403
+  }
+ },
+ {
+  "test_id": "PROFILE-restricted",
+  "feature": "permission profile switch",
+  "actual": "200",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "PROFILE-standard",
+  "feature": "permission profile switch",
+  "actual": "200",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "PROFILE-extended",
+  "feature": "permission profile switch",
+  "actual": "200",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "PROFILE-full_computer",
+  "feature": "permission profile switch",
+  "actual": "200",
+  "verdict": "PASS",
+  "evidence": {}
+ }
+]

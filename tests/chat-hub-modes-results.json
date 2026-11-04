@@ -1,0 +1,107 @@
+[
+ {
+  "test_id": "CHAT-CREATE",
+  "feature": "new chat",
+  "actual": "201 id=251edd46b299462f9ed86280eef8cb55",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "CHAT-MULTITURN-1",
+  "feature": "multi-turn first response",
+  "actual": "status=succeeded messages=2",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "CHAT-MULTITURN-2",
+  "feature": "multi-turn history grows",
+  "actual": "status=succeeded messages=4",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "CHAT-LONG",
+  "feature": "long prompt (~7.6k chars)",
+  "actual": "status=succeeded",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "CHAT-CANCEL",
+  "feature": "stop/cancel",
+  "actual": "cancel={'run_id': '60223f4811ff410d993a48563ac076cb', 'project_id': 'desktop-38311aa27d02', 'goal': 'Count to one hundred then say DONE.', 'status': 'cancelling', 'created_at': '2026-09-06T18:30:50.770986+00:00', 'started_at': '2026-09-06T18:30:50.787159+00:00', 'finished_at': None, 'result': None, 'error': None, 'log': '', 'provider': 'ollama', 'model': 'qwen3:1.7b', 'mode': 'solo', 'collaboration_rounds': 1, 'privacy': 'offline', 'conversation_id': 'b348168b3b27433db46f0cc6f342bd02', 'collaboration_decision': {'contract_version': 1, 'model_set': {'policy': 'manual_model_set', 'model_refs': ['ollama:qwen3:1.7b'], 'rationale': 'Manual model membership preserved.', 'confidence': 'high', 'expected_cost_usd': None}, 'architecture': {'mode': 'solo', 'sync_mode': 'soft', 'policy_rule': 'user.mode_lock', 'triggers': ['complexity:low', 'decomposable'], 'reasons': ['The user explicitly locked this architecture.'], 'requested_by': 'user_lock', 'expected_rounds': 1, 'candidate_mode': None, 'degradation_reason': None}, 'eligible_model_count': 1, 'task_shape': {'complexity': 'low', 'coupled': False, 'decomposable': True, 'verification_heavy': False, 'novelty_required': False}, 'signals': {'has_critical_objection': False, 'parallel_conflict': False, 'high_disagreement': False}}, 'intelligence': {'contract_version': 1, 'requested_mode': 'solo', 'resolved_mode': 'solo', 'gates': {'adaptive_planner': False, 'hybrid_execution': False, 'nano_agents': False, 'model_router': False}, 'readiness': {'runtime_reachable': True, 'adaptive_planner': 'unknown', 'hybrid_execution': 'unknown'}, 'planner_participation': 'not_applicable', 'hybrid': None}} final=cancelled",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "CHAT-OVERLIMIT",
+  "feature": "over-limit prompt rejected",
+  "actual": "400",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "CHAT-ERR",
+  "feature": "model/runtime error surfaced cleanly",
+  "actual": "400",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "HUB-DISCOVERY",
+  "feature": "Ollama auto-discovery",
+  "actual": "models=['dolphin-llama3:8b', 'gpt-oss:20b', 'qwen3:1.7b']",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "HUB-FIT",
+  "feature": "gpt-oss:20b unfit verdict",
+  "actual": "fit=2",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "HUB-FRESH",
+  "feature": "no cloud providers configured",
+  "actual": "cloud_count=4",
+  "verdict": "FAIL",
+  "evidence": {}
+ },
+ {
+  "test_id": "HUB-CATALOG",
+  "feature": "built-in provider choices available",
+  "actual": "200 keys=['amca_api', 'byok_providers', 'direct_models', 'local_models', 'maia', 'model_health']",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "AI-SIMPLE",
+  "feature": "simple task routed",
+  "actual": "status=succeeded resolved=solo",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "AI-MODERATE",
+  "feature": "moderate task",
+  "actual": "status=succeeded",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "AI-COMPLEX",
+  "feature": "complex task",
+  "actual": "status=POLL_TIMEOUT",
+  "verdict": "FAIL",
+  "evidence": {}
+ },
+ {
+  "test_id": "MODE-SOLO",
+  "feature": "solo execution",
+  "actual": "status=succeeded participants=['ollama:qwen3:1.7b']",
+  "verdict": "PASS",
+  "evidence": {}
+ }
+]

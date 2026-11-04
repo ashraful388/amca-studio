@@ -1,0 +1,19 @@
+{
+ "TESTED_BASELINE_SHA": "7148b3934f5305f99b2e4842957c626ad71b66ec",
+ "built_utc": "2026-09-06T23:59+06:00",
+ "backend": {
+  "path": "D:/ChatGPT/AMCA/AMCA-h2a-rc/software/desktop-ui/src-tauri/target/release/amca-backend.exe",
+  "source": "pyinstaller packaging/amca-backend.spec from frozen baseline",
+  "built_for": "physical validation 07 only; NOT promoted, NOT in official dist, no tag"
+ },
+ "desktop": {
+  "path": "D:/ChatGPT/AMCA/AMCA-h2a-rc/software/desktop-ui/src-tauri/target/release/amca-desktop.exe",
+  "built_for": "physical validation 07 only"
+ },
+ "constraints": {
+  "no_promotion": true,
+  "no_official_dist": true,
+  "no_tag": true,
+  "v101_artifacts_untouched": true
+ }
+}

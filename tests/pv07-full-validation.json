@@ -1,0 +1,61 @@
+{
+  "phase": "PHYSICAL-VALIDATION-07",
+  "areas": {
+    "AH": "PASS",
+    "CH": "PASS",
+    "N": "PASS",
+    "P": "PASS"
+  },
+  "passed": 8,
+  "total": 8,
+  "results": [
+    {
+      "area": "N",
+      "id": "gates-visible",
+      "ok": true,
+      "detail": "gates={}"
+    },
+    {
+      "area": "N",
+      "id": "spawn-execute-result-provenance",
+      "ok": true,
+      "detail": "nano=nano:p sealed=True"
+    },
+    {
+      "area": "N",
+      "id": "retire-no-zombie",
+      "ok": true,
+      "detail": "org_retired=True members={'nano:p': 'completed'} zombies=[]"
+    },
+    {
+      "area": "CH",
+      "id": "solo",
+      "ok": true,
+      "detail": "status=succeeded"
+    },
+    {
+      "area": "CH",
+      "id": "joint-two-models",
+      "ok": true,
+      "detail": "status=succeeded participants=['ollama:dolphin-llama3:8b', 'ollama:qwen3:1.7b']"
+    },
+    {
+      "area": "CH",
+      "id": "independent-discuss",
+      "ok": true,
+      "detail": "status=succeeded participants=['ollama:dolphin-llama3:8b', 'ollama:qwen3:1.7b']"
+    },
+    {
+      "area": "AH",
+      "id": "adaptive-hybrid-3x",
+      "ok": true,
+      "detail": "3/3"
+    },
+    {
+      "area": "P",
+      "id": "parallel-3x-real-overlap",
+      "ok": true,
+      "detail": "3/3"
+    }
+  ]
+}

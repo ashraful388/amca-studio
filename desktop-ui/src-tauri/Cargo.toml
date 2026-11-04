@@ -1,0 +1,44 @@
+[package]
+name = "amca-desktop"
+version = "1.1.21"
+description = "Adaptive Multi-Model Collaborative Cognition Architecture"
+authors = ["AMCA Project"]
+edition = "2021"
+
+[lib]
+name = "amca_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-single-instance = "2"
+tauri-plugin-autostart = "2"
+tauri-plugin-notification = "2"
+# M5.4 security hardening: CSPRNG-backed ephemeral session token generation
+uuid = { version = "1", features = ["v4"] }
+
+[target.'cfg(windows)'.dependencies]
+# P1 installer shutdown: kernel-owned backend lifetime (kill-on-close job)
+# P1.13 port-conflict UX: native error dialog (MessageBoxW)
+windows-sys = { version = "0.59", features = [
+    "Win32_Foundation",
+    "Win32_Security",
+    "Win32_System_JobObjects",
+    "Win32_System_Threading",
+    "Win32_UI_WindowsAndMessaging",
+] }
+# v1.2.0 project-folder picker: the native Windows folder chooser. This is the
+# `windows` crate tauri already depends on (same 0.61 version, already in
+# Cargo.lock), so enabling these features adds no new crate to fetch. windows-sys
+# 0.59 cannot be used here: it ships no COM interface bindings at all, only
+# constants, so IFileDialog is unavailable through it.
+windows = { version = "0.61", features = [
+    "Win32_Foundation",
+    "Win32_System_Com",
+    "Win32_UI_Shell",
+] }

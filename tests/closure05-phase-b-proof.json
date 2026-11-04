@@ -1,0 +1,32 @@
+{
+  "phase": "CLOSURE-05 Phase B",
+  "passed": 5,
+  "total": 5,
+  "results": [
+    {
+      "id": "B4-shell-refused",
+      "ok": true,
+      "detail": "cmd.exe proposal refused by registry"
+    },
+    {
+      "id": "B1-launch-real-process",
+      "ok": true,
+      "detail": "pid=34272 visible-to-tasklist=True executable=C:\\WINDOWS\\System32\\notepad.exe"
+    },
+    {
+      "id": "B2-inspect-live",
+      "ok": true,
+      "detail": "alive=True pid=34272 own_pid_title='' governed_windows=10 titles=['Untitled - Notepad', 'Untitled - Notepad', 'Untitled - Notepad']"
+    },
+    {
+      "id": "B4-no-second-instance",
+      "ok": true,
+      "detail": "second launch on same approval refused"
+    },
+    {
+      "id": "B3-terminate-real-process",
+      "ok": true,
+      "detail": "status=terminated pid-gone=True"
+    }
+  ]
+}

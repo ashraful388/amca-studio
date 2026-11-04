@@ -1,0 +1,50 @@
+{
+ "phase": "CLOSURE-05B Part D (Nano lifecycle)",
+ "passed": 8,
+ "total": 8,
+ "results": [
+  {
+   "id": "D1-enable-gate-first",
+   "ok": true,
+   "detail": "spawn with nano_agents OFF refused before any construction"
+  },
+  {
+   "id": "D2-spawn-unique-with-parent",
+   "ok": true,
+   "detail": "nano_id=nano:prop-05b-nano-1 parent=task:root"
+  },
+  {
+   "id": "D3-bounded-execution-real",
+   "ok": true,
+   "detail": "disposition=AgentCompletionDisposition.COMPLETE summary_contains_marker=True"
+  },
+  {
+   "id": "D4-result-record-digest",
+   "ok": true,
+   "detail": "digest=40e33e0086c2... reproducible_from_summary=True evidence_refs=('task:task:prop-05b-nano-1', 'executor:nano_local_model')"
+  },
+  {
+   "id": "D5-provenance-persisted",
+   "ok": true,
+   "detail": "org_task=task:prop-05b-nano-1 summary_has_output=True"
+  },
+  {
+   "id": "D6-retirement",
+   "ok": true,
+   "detail": "org.retired=True org_task_status=retired ledger_status=completed (sealed provenance kept)"
+  },
+  {
+   "id": "D7a-no-zombie-after-retire",
+   "ok": true,
+   "detail": "members={'nano:prop-05b-nano-1': 'completed'} zombies=[]"
+  },
+  {
+   "id": "D7b-cancel-path-terminal-no-result",
+   "ok": true,
+   "detail": "cancelled=['nano:prop-05b-nano-2'] status=cancelled result_suppressed=True"
+  }
+ ],
+ "baseline_sha": "7ced6be253bb1911e2fe731a0a85655583f91fda",
+ "rerun_for": "ZCODE-AMCA-NANO-FINAL-REGRESSION-07D",
+ "rerun_utc": "2026-09-07T06:05+06:00"
+}

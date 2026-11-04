@@ -1,0 +1,140 @@
+{
+  "inventory": [
+    {
+      "model": "qwen3:1.7b",
+      "fit": 0,
+      "size_gb": 1.27
+    },
+    {
+      "model": "gpt-oss:20b",
+      "fit": 2,
+      "size_gb": 12.83
+    },
+    {
+      "model": "dolphin-llama3:8b",
+      "fit": 0,
+      "size_gb": 4.34
+    }
+  ],
+  "hardware_error": "'GPUProfile' object has no attribute 'to_dict'",
+  "chat_run_request": {
+    "status": 202,
+    "body": {
+      "run_id": "54c41c7966814d43830eadf6fcac3ab7",
+      "project_id": "desktop-69dded60850a",
+      "goal": "Write one paragraph describing the AlexNet architecture.",
+      "status": "queued",
+      "created_at": "2026-09-06T12:27:51.390502+00:00",
+      "started_at": null,
+      "finished_at": null,
+      "result": null,
+      "error": null,
+      "log": "",
+      "provider": "ollama",
+      "model": "qwen3:1.7b, dolphin-llama3:8b",
+      "mode": "parallel",
+      "collaboration_rounds": 2,
+      "privacy": "offline",
+      "conversation_id": "e39e2a31306a4fa1b68a7bcae63b5327",
+      "collaboration_decision": {
+        "contract_version": 1,
+        "model_set": {
+          "policy": "manual_model_set",
+          "model_refs": [
+            "ollama:qwen3:1.7b",
+            "ollama:dolphin-llama3:8b"
+          ],
+          "rationale": "Manual model membership preserved.",
+          "confidence": "high",
+          "expected_cost_usd": null
+        },
+        "architecture": {
+          "mode": "parallel",
+          "sync_mode": "soft",
+          "policy_rule": "user.mode_lock",
+          "triggers": [
+            "complexity:medium",
+            "coupled"
+          ],
+          "reasons": [
+            "The user explicitly locked this architecture."
+          ],
+          "requested_by": "user_lock",
+          "expected_rounds": 2,
+          "candidate_mode": null,
+          "degradation_reason": null
+        },
+        "eligible_model_count": 2,
+        "task_shape": {
+          "complexity": "medium",
+          "coupled": true,
+          "decomposable": false,
+          "verification_heavy": false,
+          "novelty_required": false
+        },
+        "signals": {
+          "has_critical_objection": false,
+          "parallel_conflict": false,
+          "high_disagreement": false
+        },
+        "decomposition": {
+          "basis": "single+independent-attempts",
+          "work_unit_count": 2,
+          "levels": 2,
+          "units": [
+            {
+              "id": "unit-1",
+              "focus": "Complete the whole bounded task and verify the result: Write one paragraph describing the AlexNet architecture.",
+              "assignee_ids": [
+                "ollama:qwen3:1.7b"
+              ],
+              "dependencies": []
+            },
+            {
+              "id": "unit-2",
+              "focus": "Independently attempt the parent goal from your own reasoning without reusing any other branch's text; cross-attempt 1.",
+              "assignee_ids": [
+                "ollama:dolphin-llama3:8b"
+              ],
+              "dependencies": []
+            },
+            {
+              "id": "integration",
+              "focus": "Integrate every completed work unit into one verified answer for the parent goal; state any unresolved conflicts explicitly instead of hiding them.",
+              "assignee_ids": [
+                "ollama:qwen3:1.7b"
+              ],
+              "dependencies": [
+                "unit-1",
+                "unit-2"
+              ]
+            }
+          ]
+        }
+      },
+      "intelligence": {
+        "contract_version": 1,
+        "requested_mode": "parallel",
+        "resolved_mode": "parallel",
+        "gates": {
+          "adaptive_planner": false,
+          "hybrid_execution": false,
+          "nano_agents": false,
+          "model_router": false
+        },
+        "readiness": {
+          "runtime_reachable": true,
+          "adaptive_planner": "unknown",
+          "hybrid_execution": "unknown"
+        },
+        "planner_participation": "not_applicable",
+        "hybrid": null
+      }
+    }
+  },
+  "terminal": {
+    "status": "partial",
+    "stop_reason": null,
+    "calls": []
+  }
+}

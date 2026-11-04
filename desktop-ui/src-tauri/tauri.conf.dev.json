@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "AMCA Studio Source Dev",
+  "identifier": "ai.amca.desktop.source",
+  "version": "1.1.21",
+  "build": {
+    "devUrl": "http://127.0.0.1:1420"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "AMCA 1.1.21 — Source Dev (8877)",
+        "width": 1440,
+        "height": 920,
+        "minWidth": 900,
+        "minHeight": 680,
+        "center": true,
+        "dragDropEnabled": false,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src 'self' http://127.0.0.1:8877 ipc: http://ipc.localhost; img-src 'self' asset: http://asset.localhost data: blob: http: https:; style-src 'self' 'unsafe-inline' http: https:; font-src 'self' data: http: https:; frame-src http: https:"
+    }
+  },
+  "bundle": {
+    "active": false,
+    "resources": {}
+  }
+}

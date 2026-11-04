@@ -1,0 +1,37 @@
+{
+  "phase": "CLOSURE-05 Phase A",
+  "passed": 6,
+  "total": 6,
+  "results": [
+    {
+      "id": "A0-setup",
+      "ok": true,
+      "detail": "grant=grant.04dda66c651248b78b4c4cf1e8cce693 state_root=C:\\Users\\MD8327~1.ASH\\AppData\\Local\\Temp\\closure05-phase-a-mz8oreua\\tool-state"
+    },
+    {
+      "id": "A1-timeout-status",
+      "ok": true,
+      "detail": "status=timeout elapsed=2.13s truncated=True"
+    },
+    {
+      "id": "A1-timeout-enforced-early",
+      "ok": true,
+      "detail": "run ended at 2.13s (must be far below the 60-ping natural runtime)"
+    },
+    {
+      "id": "A2-cancel-status",
+      "ok": true,
+      "detail": "cancel=cancelled terminal=cancelled stable-after-delay=cancelled"
+    },
+    {
+      "id": "A3-restart-survival",
+      "ok": true,
+      "detail": "timeout run recovered as timeout; cancel run recovered as cancelled"
+    },
+    {
+      "id": "A4-stale-fail-closed",
+      "ok": true,
+      "detail": "stale running row loaded as failed"
+    }
+  ]
+}

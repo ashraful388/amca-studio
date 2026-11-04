@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0.0",
+  "experiment_id": "r3-first-heterogeneous-v8",
+  "supersedes": "r3-first-heterogeneous-v7",
+  "change_reason": "V7 was protocol compliant but its provisional round withheld falsifiable claims and its review contract forbade all participant-authored events, making explicit correction or objection structurally unavailable. V8 preserves the task, providers, request behavior, calls, and budgets while exposing one bounded provisional claim and allowing at most one concise correction or objection per review.",
+  "round_prompt_protocol": "staged_compact_v4",
+  "provider_request_protocol": "kimi_json_object_v1",
+  "review_contract_protocol": "complete_attestations_bounded_correction_v1",
+  "stage": "R3",
+  "status": "preregistered_not_executed",
+  "hypothesis": "For this bounded exact task, heterogeneous Joint Cognition may improve criterion completion or correct an error relative to the strongest selected single participant.",
+  "interpretation_rule": "One experiment can show a correction or failure mode but cannot establish general superiority.",
+  "task": {
+    "benchmark_task_id": "math-pattern-wait-002",
+    "domain": "mathematics_probability",
+    "difficulty": "hard",
+    "active_focus": "A coin gives H with probability 2/3 and T with probability 1/3. Starting before any tosses, find the expected waiting time for the first consecutive HTH. Use states equal to the longest current suffix that is a prefix of HTH; report the transitions, first-step equations, exact fraction, and decimal value.",
+    "reference": {
+      "exact_fraction": "33/4",
+      "decimal": 8.25,
+      "states": ["empty", "H", "HT", "done"]
+    },
+    "round_protocol": "Round 1 is provisional. Do not resolve the focus until a later checkpoint exposes prior semantic evidence. In round 2, inspect prior claims, raise a precise objection when warranted, correct errors, and submit criterion evidence only for claims you can verify."
+  },
+  "criteria": [
+    {
+      "id": "exact_expectation",
+      "description": "State the exact expected waiting time and its decimal equivalent."
+    },
+    {
+      "id": "transition_automaton",
+      "description": "Give all H/T transitions for empty, H, and HT, including the H-to-H self-overlap."
+    },
+    {
+      "id": "first_step_equations",
+      "description": "Give one correct first-step expectation equation for each nonterminal state."
+    },
+    {
+      "id": "deterministic_verification",
+      "description": "Substitute the solved values into every equation and verify the exact result independently."
+    }
+  ],
+  "participants": [
+    {
+      "id": "openai",
+      "provider": "openai",
+      "model": "gpt-4o-mini",
+      "endpoint": "https://api.openai.com/v1",
+      "input_usd_per_million": 0.15,
+      "output_usd_per_million": 0.6
+    },
+    {
+      "id": "anthropic",
+      "provider": "anthropic",
+      "model": "claude-haiku-4-5-20251001",
+      "endpoint": "https://api.anthropic.com",
+      "input_usd_per_million": 1.0,
+      "output_usd_per_million": 5.0
+    },
+    {
+      "id": "kimi",
+      "provider": "kimi",
+      "model": "kimi-k2.6",
+      "endpoint": "https://api.moonshot.ai/v1",
+      "input_usd_per_million": 0.16,
+      "output_usd_per_million": 4.0
+    }
+  ],
+  "conditions": [
+    {
+      "id": "solo",
+      "mode": "solo",
+      "participants": ["kimi"],
+      "selection_rule": "Kimi K2.6 was preregistered before outputs as the strongest validated participant available within the bounded structured-response protocol.",
+      "sync_mode": "hard",
+      "max_rounds": 2,
+      "max_calls": 2,
+      "api_budget_usd": 0.006
+    },
+    {
+      "id": "joint",
+      "mode": "joint",
+      "participants": ["openai", "anthropic", "kimi"],
+      "sync_mode": "bounded_staleness",
+      "bounded_staleness_base": "quorum",
+      "max_cognitive_lag": 32,
+      "max_rounds": 2,
+      "max_calls": 6,
+      "api_budget_usd": 0.024
+    }
+  ],
+  "execution_bounds": {
+    "maximum_total_calls": 8,
+    "maximum_output_tokens_per_call": 512,
+    "conservative_input_tokens_per_call": 5000,
+    "automatic_retries": 0,
+    "rebase_calls": 0,
+    "maximum_total_api_cost_usd": 0.03,
+    "conservative_preflight_cost_usd": 0.0286264,
+    "maximum_runtime_seconds_per_condition": 240
+  },
+  "measurements": [
+    "correctness",
+    "criterion_completion",
+    "unresolved_objections",
+    "objections",
+    "corrections",
+    "verified_evidence",
+    "tool_requests_and_results",
+    "latency_seconds",
+    "input_tokens",
+    "output_tokens",
+    "api_cost_usd",
+    "orchestration_overhead_seconds",
+    "material_correction_or_improvement"
+  ],
+  "stop_conditions": [
+    "Stop before network access unless all three saved participant profiles and prices match this manifest.",
+    "Stop if conservative admission exceeds $0.03.",
+    "Stop after two rounds per condition; make no retries, rebases, substitutions, or extra synthesis calls.",
+    "Stop after Solo if any required participant/criterion review attestation is absent or if any participant authors more than one review event, a review event outside correction/objection, or review content over 160 characters.",
+    "Stop and report partial evidence if any provider fails."
+  ]
+}

@@ -1,0 +1,173 @@
+AMCA STUDIO — THIRD-PARTY SOFTWARE NOTICES
+================================================================================
+This document lists third-party software components incorporated into or
+distributed alongside the AMCA Studio application. The notices and attributions
+below are provided in accordance with the licenses of the respective projects.
+
+For the complete legal text of each applicable license, refer to:
+  THIRD_PARTY_LICENSES.txt
+For the Mozilla Public License (MPL 2.0) source availability notice, refer to:
+  MPL_SOURCE_AVAILABILITY_NOTICE.txt
+================================================================================
+
+SHIPPED RUNTIME THIRD-PARTY COMPONENTS (48)
+--------------------------------------------------------------------------------
+
+[RUST / CARGO CORE PACKAGING]
+1. serde (v1.0.229)
+   - License: Apache-2.0 OR MIT
+   - Upstream: https://github.com/serde-rs/serde
+2. serde_json (v1.0.151)
+   - License: Apache-2.0 OR MIT
+   - Upstream: https://github.com/serde-rs/json
+3. tauri (v2.11.5)
+   - License: Apache-2.0 OR MIT
+   - Upstream: https://github.com/tauri-apps/tauri
+4. tauri-plugin-autostart (v2.5.1)
+   - License: Apache-2.0 OR MIT
+   - Upstream: https://github.com/tauri-apps/plugins-workspace
+5. tauri-plugin-notification (v2.3.3)
+   - License: Apache-2.0 OR MIT
+   - Upstream: https://github.com/tauri-apps/plugins-workspace
+6. tauri-plugin-single-instance (v2.4.3)
+   - License: Apache-2.0 OR MIT
+   - Upstream: https://github.com/tauri-apps/plugins-workspace
+7. uuid (v1.24.0)
+   - License: Apache-2.0 OR MIT
+   - Upstream: https://github.com/uuid-rs/uuid
+
+[FRONTEND WEB / DESKTOP-UI DEPENDENCIES]
+8. @tauri-apps/api (v2.11.1)
+   - License: Apache-2.0 OR MIT
+   - Upstream: https://github.com/tauri-apps/tauri
+9. katex (v0.18.4)
+   - License: MIT
+   - Upstream: https://github.com/KaTeX/KaTeX
+10. react (v19.2.8)
+    - License: MIT
+    - Upstream: https://github.com/facebook/react
+11. react-dom (v19.2.8)
+    - License: MIT
+    - Upstream: https://github.com/facebook/react
+12. react-markdown (v10.1.0)
+    - License: MIT
+    - Upstream: https://github.com/remarkjs/react-markdown
+13. rehype-katex (v7.0.1)
+    - License: MIT
+    - Upstream: https://github.com/remarkjs/remark-math
+14. remark-gfm (v4.0.1)
+    - License: MIT
+    - Upstream: https://github.com/remarkjs/remark-gfm
+15. remark-math (v6.0.0)
+    - License: MIT
+    - Upstream: https://github.com/remarkjs/remark-math
+
+[PYTHON RUNTIME & STANDALONE BACKEND PACKAGES]
+16. annotated_types (v0.8.0)
+    - License: MIT
+    - Upstream: https://github.com/annotated-types/annotated-types
+17. anthropic (v0.122.0)
+    - License: MIT
+    - Upstream: https://github.com/anthropics/anthropic-sdk-python
+18. anyio (v4.14.2)
+    - License: MIT
+    - Upstream: https://github.com/agronholm/anyio
+19. certifi (v2026.7.22)
+    - License: MPL-2.0 (Mozilla Public License 2.0)
+    - Upstream Source: https://github.com/certifi/python-certifi
+    - Notice: See MPL_SOURCE_AVAILABILITY_NOTICE.txt
+20. colorama (v0.4.6)
+    - License: BSD-3-Clause
+    - Upstream: https://github.com/tartley/colorama
+21. distro (v1.9.0)
+    - License: Apache-2.0
+    - Upstream: https://github.com/python-distro/distro
+22. docstring_parser (v0.18.0)
+    - License: MIT
+    - Upstream: https://github.com/rr-/docstring_parser
+23. et_xmlfile (v2.0.0)
+    - License: MIT
+    - Upstream: https://foss.heptapod.net/openpyxl/et_xmlfile
+24. h11 (v0.16.0)
+    - License: MIT
+    - Upstream: https://github.com/python-hyper/h11
+25. httpcore (v1.0.9)
+    - License: BSD-3-Clause
+    - Upstream: https://github.com/encode/httpcore
+26. httpcore2 (v2.12.0)
+    - License: BSD-3-Clause
+    - Upstream: https://github.com/encode/httpcore
+27. httpx (v0.28.1)
+    - License: BSD-3-Clause
+    - Upstream: https://github.com/encode/httpx
+28. httpx2 (v2.12.0)
+    - License: BSD-3-Clause
+    - Upstream: https://github.com/encode/httpx
+29. idna (v3.18)
+    - License: BSD-3-Clause
+    - Upstream: https://github.com/kjd/idna
+30. iniconfig (v2.3.0)
+    - License: MIT
+    - Upstream: https://github.com/pytest-dev/iniconfig
+31. jiter (v0.16.0)
+    - License: MIT
+    - Upstream: https://github.com/pydantic/jiter
+32. lxml (v6.1.2) [28C Runtime Import]
+    - License: BSD-3-Clause
+    - Upstream: https://github.com/lxml/lxml
+33. openai (v3.3.1)
+    - License: Apache-2.0
+    - Upstream: https://github.com/openai/openai-python
+34. openpyxl (v3.1.5)
+    - License: MIT
+    - Upstream: https://openpyxl.readthedocs.io
+35. pillow (v12.3.0)
+    - License: MIT-CMU
+    - Upstream: https://github.com/python-pillow/Pillow
+36. pluggy (v1.6.0)
+    - License: MIT
+    - Upstream: https://github.com/pytest-dev/pluggy
+37. pydantic (v2.13.4)
+    - License: MIT
+    - Upstream: https://github.com/pydantic/pydantic
+38. pydantic_core (v2.46.4)
+    - License: MIT
+    - Upstream: https://github.com/pydantic/pydantic-core
+39. pygments (v2.21.0)
+    - License: BSD-2-Clause
+    - Upstream: https://github.com/pygments/pygments
+40. pypdf (v6.16.0)
+    - License: BSD-3-Clause
+    - Upstream: https://github.com/py-pdf/pypdf
+41. pytest (v9.1.1)
+    - License: MIT
+    - Upstream: https://github.com/pytest-dev/pytest
+42. python_docx (v1.2.0) [28C Runtime Import]
+    - License: MIT
+    - Upstream: https://github.com/python-openxml/python-docx
+43. python_pptx (v1.0.2) [28C Runtime Import]
+    - License: MIT
+    - Upstream: https://github.com/scanny/python-pptx
+44. sniffio (v1.3.1)
+    - License: Apache-2.0 OR MIT
+    - Upstream: https://github.com/python-trio/sniffio
+45. truststore (v0.10.4)
+    - License: MIT
+    - Upstream: https://github.com/sethmlarson/truststore
+46. typing_extensions (v4.16.0)
+    - License: PSF-2.0 (Python Software Foundation License 2.0)
+    - Upstream: https://github.com/python/typing_extensions
+47. typing_inspection (v0.4.4)
+    - License: MIT
+    - Upstream: https://github.com/pydantic/typing-inspection
+48. SQLite (v3.x bundled runtime)
+    - License: Public Domain / Dedicated to Public Domain
+    - Upstream: https://www.sqlite.org/
+
+[EXTERNAL PREREQUISITES NOTICE]
+- Microsoft Edge WebView2: Utilizes the system-provided evergreen component.
+  Governed by Microsoft Software License Terms. Not distributed by AMCA.
+
+================================================================================
+END OF NOTICES
+================================================================================

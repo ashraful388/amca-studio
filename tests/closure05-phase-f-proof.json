@@ -1,0 +1,47 @@
+{
+  "phase": "CLOSURE-05 Phase F",
+  "passed": 8,
+  "total": 8,
+  "results": [
+    {
+      "id": "F1-durable-definition",
+      "ok": true,
+      "detail": "id=c749155d1e874ae4b8e36bba76f87f4a enabled=False survives_reopen=True"
+    },
+    {
+      "id": "F6a-dispatch-refusal-retained",
+      "ok": true,
+      "detail": "occurrence=eda6edbe6af848d59b4e651fb00e09c8 status=failed error='dispatch refused: backend unavailable du'"
+    },
+    {
+      "id": "F6b-refused-occurrence-revived",
+      "ok": true,
+      "detail": "same_row=True status=running run_id=run-0001"
+    },
+    {
+      "id": "F2-claim-then-dispatch",
+      "ok": true,
+      "detail": "dispatched=1 status=running run_id=run-0002"
+    },
+    {
+      "id": "F3-replay-protected",
+      "ok": true,
+      "detail": "second_tick_dispatched=0"
+    },
+    {
+      "id": "F4-completion-by-run",
+      "ok": true,
+      "detail": "changed=1 status=succeeded"
+    },
+    {
+      "id": "F5-disable-wins",
+      "ok": true,
+      "detail": "disabled_tick_dispatched=0"
+    },
+    {
+      "id": "F7-once-auto-disables",
+      "ok": true,
+      "detail": "dispatched=1 enabled_after=False"
+    }
+  ]
+}

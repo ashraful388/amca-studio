@@ -1,0 +1,61 @@
+{
+  "phase": "CLOSURE-05B Part E (regression smoke)",
+  "passed": 9,
+  "total": 9,
+  "results": [
+    {
+      "area": "collaboration",
+      "id": "solo-joint-parallel-routing",
+      "ok": true,
+      "detail": "parallel=parallel joint=joint degraded=solo"
+    },
+    {
+      "area": "commands",
+      "id": "timeout-and-cancel",
+      "ok": true,
+      "detail": "status=timeout"
+    },
+    {
+      "area": "applications",
+      "id": "registry-refuses-shell",
+      "ok": true,
+      "detail": "cmd.exe refused by governed registry"
+    },
+    {
+      "area": "browser",
+      "id": "loopback-only-policy",
+      "ok": true,
+      "detail": "public_refused=True loopback_accepted=True"
+    },
+    {
+      "area": "attachments",
+      "id": "txt-ingest-exe-refused",
+      "ok": true,
+      "detail": "txt=text/plain exe_refused=True"
+    },
+    {
+      "area": "artifacts",
+      "id": "edit-then-export",
+      "ok": true,
+      "detail": "version=2 export=exported"
+    },
+    {
+      "area": "automations",
+      "id": "claim-replay-disable",
+      "ok": true,
+      "detail": "first=1 replay=0 disabled=0"
+    },
+    {
+      "area": "model-hub",
+      "id": "unified-fit-verdict",
+      "ok": true,
+      "detail": "100MB_fit=0 500GB_fit=2 (DEF-CD2266 contract)"
+    },
+    {
+      "area": "nano",
+      "id": "gated-execution",
+      "ok": true,
+      "detail": "result_sealed=True"
+    }
+  ]
+}

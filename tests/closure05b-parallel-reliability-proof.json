@@ -1,0 +1,165 @@
+{
+  "phase": "CLOSURE-05B Part B (Parallel reliability)",
+  "reliability": "3/3 PASS",
+  "results": [
+    {
+      "iteration": 1,
+      "run_id": "541cc6806ae34b71990fe6be714470dc",
+      "status": "succeeded",
+      "wall_seconds": 171.6,
+      "calls": [
+        {
+          "adapter_id": "ollama:qwen3:1.7b",
+          "status": "complete",
+          "error": null,
+          "summary_head": "AlexNet is a deep convolutional neural network developed by ",
+          "output_tokens": 446
+        },
+        {
+          "adapter_id": "ollama:dolphin-llama3:8b",
+          "status": "failed",
+          "error": "Response is not valid JSON: Expecting value",
+          "summary_head": "",
+          "output_tokens": 95
+        },
+        {
+          "adapter_id": "ollama:dolphin-llama3:8b",
+          "status": "complete",
+          "error": null,
+          "summary_head": "The AlexNet architecture is a deep neural network that was i",
+          "output_tokens": 99
+        },
+        {
+          "adapter_id": "ollama:qwen3:1.7b",
+          "status": "complete",
+          "error": null,
+          "summary_head": "Integrated AlexNet architecture details from dependencies: a",
+          "output_tokens": 727
+        }
+      ],
+      "branch_outputs": {
+        "ollama:qwen3:1.7b": {
+          "present": true,
+          "head": "AlexNet is a deep convolutional neural network developed by "
+        },
+        "ollama:dolphin-llama3:8b": {
+          "present": true,
+          "head": "The AlexNet architecture is a deep neural network that was i"
+        }
+      },
+      "outputs_distinct": true,
+      "real_overlap": true,
+      "overlap_detail": "qwen[0s..170s] dolphin[15s..109s]",
+      "observed_calls": 4,
+      "recovered_attempts": [
+        {
+          "adapter_id": "ollama:dolphin-llama3:8b",
+          "error": "Response is not valid JSON: Expecting value"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "iteration": 2,
+      "run_id": "1019902f00144334b5109bac95a4b3c1",
+      "status": "succeeded",
+      "wall_seconds": 195.7,
+      "calls": [
+        {
+          "adapter_id": "ollama:qwen3:1.7b",
+          "status": "complete",
+          "error": null,
+          "summary_head": "AlexNet is a deep learning model developed by Alex Krizhevsk",
+          "output_tokens": 712
+        },
+        {
+          "adapter_id": "ollama:dolphin-llama3:8b",
+          "status": "failed",
+          "error": "Response is not valid JSON: Expecting value",
+          "summary_head": "",
+          "output_tokens": 115
+        },
+        {
+          "adapter_id": "ollama:dolphin-llama3:8b",
+          "status": "complete",
+          "error": null,
+          "summary_head": "The AlexNet architecture is a deep neural network model that",
+          "output_tokens": 143
+        },
+        {
+          "adapter_id": "ollama:qwen3:1.7b",
+          "status": "complete",
+          "error": null,
+          "summary_head": "AlexNet is a deep learning model developed by Alex Krizhevsk",
+          "output_tokens": 601
+        }
+      ],
+      "branch_outputs": {
+        "ollama:qwen3:1.7b": {
+          "present": true,
+          "head": "AlexNet is a deep learning model developed by Alex Krizhevsk"
+        },
+        "ollama:dolphin-llama3:8b": {
+          "present": true,
+          "head": "The AlexNet architecture is a deep neural network model that"
+        }
+      },
+      "outputs_distinct": true,
+      "real_overlap": true,
+      "overlap_detail": "qwen[0s..193s] dolphin[15s..142s]",
+      "observed_calls": 4,
+      "recovered_attempts": [
+        {
+          "adapter_id": "ollama:dolphin-llama3:8b",
+          "error": "Response is not valid JSON: Expecting value"
+        }
+      ],
+      "ok": true
+    },
+    {
+      "iteration": 3,
+      "run_id": "54f3c1bab5c14a13a33886f341b2c5b0",
+      "status": "succeeded",
+      "wall_seconds": 225.7,
+      "calls": [
+        {
+          "adapter_id": "ollama:qwen3:1.7b",
+          "status": "complete",
+          "error": null,
+          "summary_head": "AlexNet is a deep convolutional neural network developed by ",
+          "output_tokens": 1062
+        },
+        {
+          "adapter_id": "ollama:dolphin-llama3:8b",
+          "status": "complete",
+          "error": null,
+          "summary_head": "The AlexNet architecture is a deep neural network model that",
+          "output_tokens": 275
+        },
+        {
+          "adapter_id": "ollama:qwen3:1.7b",
+          "status": "complete",
+          "error": null,
+          "summary_head": "AlexNet is a deep convolutional neural network with 56 layer",
+          "output_tokens": 344
+        }
+      ],
+      "branch_outputs": {
+        "ollama:qwen3:1.7b": {
+          "present": true,
+          "head": "AlexNet is a deep convolutional neural network developed by "
+        },
+        "ollama:dolphin-llama3:8b": {
+          "present": true,
+          "head": "The AlexNet architecture is a deep neural network model that"
+        }
+      },
+      "outputs_distinct": true,
+      "real_overlap": true,
+      "overlap_detail": "qwen[0s..224s] dolphin[15s..174s]",
+      "observed_calls": 3,
+      "recovered_attempts": [],
+      "ok": true
+    }
+  ]
+}

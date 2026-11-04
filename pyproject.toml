@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "amca-platform"
+version = "1.1.21"
+description = "Local-first Adaptive Multi-Model Collaborative Cognition Architecture prototype"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  { name = "AMCA Project" },
+]
+dependencies = [
+  "pypdf>=6.0,<7",
+]
+
+[project.optional-dependencies]
+providers = [
+  "anthropic>=0.69",
+  "openai>=1.109",
+]
+science = [
+  "sympy>=1.14",
+]
+exports = [
+  "python-docx>=1.1",
+  "openpyxl>=3.1",
+  "python-pptx>=0.6",
+]
+dev = [
+  "coverage>=7.10",
+]
+
+[project.scripts]
+amca = "amca.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.data-files]
+"share/amca/benchmarks" = ["benchmarks/tasks.json"]
+
+[tool.coverage.run]
+branch = true
+source = ["amca"]
+
+[tool.pytest.ini_options]
+markers = [
+  "historical_milestone: test belongs to an earlier milestone's source tree and is not evidence for the current release candidate",
+]

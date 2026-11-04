@@ -1,0 +1,58 @@
+{
+ "parallel": [
+  {
+   "attempt": 1,
+   "status": "succeeded",
+   "calls": 4,
+   "adapters": [
+    "ollama:dolphin-llama3:8b",
+    "ollama:qwen3:1.7b"
+   ]
+  },
+  {
+   "attempt": 2,
+   "status": "succeeded",
+   "calls": 3,
+   "adapters": [
+    "ollama:dolphin-llama3:8b",
+    "ollama:qwen3:1.7b"
+   ]
+  },
+  {
+   "attempt": 3,
+   "status": "succeeded",
+   "calls": 3,
+   "adapters": [
+    "ollama:dolphin-llama3:8b",
+    "ollama:qwen3:1.7b"
+   ]
+  }
+ ],
+ "adaptive_hybrid": [
+  {
+   "attempt": 1,
+   "status": "succeeded",
+   "calls": 1,
+   "adapters": [
+    "ollama:qwen3:1.7b"
+   ]
+  },
+  {
+   "attempt": 2,
+   "status": "succeeded",
+   "calls": 1,
+   "adapters": [
+    "ollama:qwen3:1.7b"
+   ]
+  },
+  {
+   "attempt": 3,
+   "status": "succeeded",
+   "calls": 7,
+   "adapters": [
+    "ollama:dolphin-llama3:8b",
+    "ollama:qwen3:1.7b"
+   ]
+  }
+ ]
+}

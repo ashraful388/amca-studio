@@ -1,0 +1,415 @@
+/* ============================================================================
+   Model settings surface.
+
+   Scoped tokens, not a global repaint. The reference desktop settings layout
+   pairs a near-black canvas with a lifted neutral surface and a single bright
+   accent for the active row. These variables are declared on .msettings so the
+   Model Hub and provider pages follow that language while the rest of the
+   shell keeps its existing palette. Light theme is declared explicitly rather
+   than inherited, because an accent tuned for a near-black canvas is not
+   legible on white.
+   ========================================================================= */
+.msettings {
+  --ms-canvas: #161616;
+  --ms-surface: #2b2b2b;
+  --ms-surface-2: #303030;
+  --ms-surface-3: #383838;
+  --ms-line: #3a3a3a;
+  --ms-line-soft: #2f2f2f;
+  --ms-text: #ededed;
+  --ms-text-dim: #b4b4b4;
+  /* Faint copy is 11-12px, so it is normal text and must clear 4.5:1 against
+     the surfaces it is actually used on (#2b2b2b and #303030), not just against
+     the page canvas. */
+  --ms-text-faint: #9a9a9a;
+  --ms-accent: #c8f800;
+  --ms-accent-ink: #1a1f05;
+  --ms-ok: #40b870;
+  --ms-warn: #f88830;
+  --ms-off: #8a8a8a;
+  --ms-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-height: 0;
+  color: var(--ms-text);
+}
+:root[data-theme="light"] .msettings {
+  --ms-canvas: #fbfbfc;
+  --ms-surface: #ffffff;
+  --ms-surface-2: #f4f4f6;
+  --ms-surface-3: #e9e9ef;
+  --ms-line: #e2e2e8;
+  --ms-line-soft: #eeeef2;
+  --ms-text: #1b1b1f;
+  --ms-text-dim: #55555f;
+  --ms-text-faint: #6f6f79;
+  --ms-accent: #5f7f00;
+  --ms-accent-ink: #ffffff;
+  --ms-ok: #1f8a4c;
+  --ms-warn: #b4610a;
+  --ms-off: #767680;
+}
+
+.msettings-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
+.msettings-head h1 { margin: 0 0 6px; font-size: 21px; font-weight: 650; letter-spacing: -.02em; }
+.msettings-head p { margin: 0; max-width: 68ch; color: var(--ms-text-dim); font-size: 13px; line-height: 1.55; }
+.msettings-head-action { flex-shrink: 0; }
+.msettings-rule { height: 1px; background: var(--ms-line); flex-shrink: 0; }
+
+.msettings-body { display: grid; grid-template-columns: 236px minmax(0, 1fr); gap: 26px; min-height: 0; align-items: start; }
+.msettings-nav {
+  display: flex; flex-direction: column; gap: 2px; min-width: 0;
+  position: sticky; top: 0;
+  max-height: calc(100vh - 190px); overflow-y: auto; scrollbar-gutter: stable;
+}
+.msettings-back {
+  display: flex; align-items: center; gap: 8px; width: 100%; text-align: left;
+  background: transparent; border: 0; color: var(--ms-text); font-weight: 600; font-size: 13px;
+  padding: 8px 10px; border-radius: var(--ms-radius); margin-bottom: 8px;
+}
+.msettings-back:hover { background: var(--ms-surface-2); }
+.msettings-back span { color: var(--ms-text-dim); }
+
+.msettings-nav-group { display: flex; flex-direction: column; gap: 1px; margin-bottom: 14px; }
+.msettings-nav-heading {
+  margin: 0; padding: 8px 10px 4px; font-size: 11px; font-weight: 600;
+  letter-spacing: .06em; text-transform: uppercase; color: var(--ms-text-faint);
+}
+.msettings-nav-empty { margin: 0; padding: 6px 10px; font-size: 12px; color: var(--ms-text-faint); font-style: italic; }
+.msettings-nav-row {
+  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
+  background: transparent; border: 0; color: var(--ms-text-dim);
+  padding: 7px 10px; border-radius: var(--ms-radius); min-height: 34px; font-size: 13px;
+}
+.msettings-nav-row:hover { background: var(--ms-surface-2); color: var(--ms-text); }
+/* The active row is filled, not just tinted: the current location stays obvious. */
+.msettings-nav-row.active { background: var(--ms-surface-3); color: var(--ms-text); font-weight: 600; }
+.msettings-nav-row.active .msettings-nav-icon { color: var(--ms-accent); }
+.msettings-nav-icon { width: 16px; flex-shrink: 0; text-align: center; color: var(--ms-text-faint); font-size: 13px; line-height: 1; }
+.msettings-nav-label { min-width: 0; display: flex; flex-direction: column; gap: 1px; flex: 1 1 auto; }
+.msettings-nav-label strong { font-weight: inherit; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.msettings-nav-label small { font-size: 11px; color: var(--ms-text-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.msettings-nav-row.active .msettings-nav-label small { color: var(--ms-text-dim); }
+
+.msettings-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.msettings-dot.tone-ok { background: var(--ms-ok); }
+.msettings-dot.tone-warn { background: var(--ms-warn); }
+.msettings-dot.tone-off { background: var(--ms-off); }
+
+.msettings-nav-add {
+  display: flex; align-items: center; gap: 8px; width: 100%; text-align: left;
+  background: transparent; border: 1px dashed var(--ms-line); color: var(--ms-text-dim);
+  padding: 7px 10px; border-radius: var(--ms-radius); font-size: 13px; margin-top: 2px;
+}
+.msettings-nav-add:hover { border-color: var(--ms-accent); color: var(--ms-text); }
+.msettings-nav-foot { margin: 4px 0 0; padding: 0 10px; font-size: 11px; color: var(--ms-text-faint); }
+/* The unsaved "New provider" draft row: dashed edge marks it as not a record. */
+.msettings .msettings-nav-draft { border: 1px dashed var(--ms-accent); }
+.msettings .msdraft { border-color: var(--ms-line); }
+
+.msettings-main {
+  min-width: 0; background: var(--ms-surface); border: 1px solid var(--ms-line-soft);
+  border-radius: 14px; padding: 22px 24px 26px;
+}
+.msettings-loading, .msettings .msettings-error { margin: 0; font-size: 13px; }
+.msettings-loading { color: var(--ms-text-dim); }
+.msettings-error { color: var(--ms-warn); margin-bottom: 14px; }
+
+/* Buttons on this surface. */
+.msettings .msbtn {
+  background: var(--ms-surface-2); border: 1px solid var(--ms-line); color: var(--ms-text);
+  border-radius: 8px; padding: 7px 13px; font-size: 13px; cursor: pointer; white-space: nowrap;
+}
+.msettings .msbtn:hover:not(:disabled) { background: var(--ms-surface-3); }
+.msettings .msbtn:disabled { opacity: .45; cursor: not-allowed; }
+.msettings .msbtn.primary { background: var(--ms-accent); border-color: var(--ms-accent); color: var(--ms-accent-ink); font-weight: 600; }
+.msettings .msbtn.primary:hover:not(:disabled) { filter: brightness(1.08); }
+.msettings .msbtn.danger { color: var(--ms-warn); }
+.msettings .msbtn.danger:hover:not(:disabled) { background: rgba(248, 136, 48, .14); }
+.msettings .mslink { background: transparent; border: 0; color: var(--ms-text-dim); font-size: 12px; padding: 2px 4px; cursor: pointer; border-radius: 5px; }
+.msettings .mslink:hover:not(:disabled) { color: var(--ms-text); background: var(--ms-surface-2); }
+.msettings .mslink:disabled { opacity: .4; cursor: not-allowed; }
+.msettings .mslink.danger { color: var(--ms-warn); }
+
+/* Provider detail. */
+.msettings .msprovider { display: flex; flex-direction: column; gap: 18px; }
+.msettings .msprovider-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.msettings .msprovider-head h2 { margin: 0 0 3px; font-size: 18px; font-weight: 650; }
+.msettings .msprovider-sub { margin: 0; font-size: 12px; color: var(--ms-text-dim); }
+.msettings .msprovider-head-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.msettings .msprovider-ok { margin: 0; color: var(--ms-ok); font-size: 12px; }
+.msettings .msprovider-fail { margin: 0; color: var(--ms-warn); font-size: 12px; }
+.msettings .msprovider-empty { margin: 0; color: var(--ms-text-dim); font-size: 13px; }
+.msettings .msprovider-foot { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding-top: 14px; border-top: 1px solid var(--ms-line-soft); }
+.msettings .msprovider-foot .msrow-note { flex: 1 1 320px; }
+
+/* Label / value rows. */
+.msettings .msrows { display: flex; flex-direction: column; }
+.msettings .msrow { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 20px; padding: 14px 0; border-top: 1px solid var(--ms-line-soft); }
+.msettings .msrow:first-child { border-top: 0; }
+.msettings .msrow-label { font-size: 13px; color: var(--ms-text-dim); }
+/* The stacked row's heading (label + actions) owns the full width, so the
+   Model list header never fights the 180px label column — and the value
+   below it must span too, or it auto-places into the 180px first column and
+   the model table renders as a sliver. */
+.msettings .msrow-stack > .msrow-label-row { grid-column: 1 / -1; padding-top: 2px; }
+.msettings .msrow-stack > .msrow-value { grid-column: 1 / -1; }
+.msettings .msrow-label-row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.msettings .msrow-actions { display: flex; gap: 4px; }
+.msettings .msrow-value { min-width: 0; display: flex; flex-direction: column; gap: 5px; }
+.msettings .msrow-note { color: var(--ms-text-faint); font-size: 11px; line-height: 1.5; margin: 0; }
+.msettings .msendpoint { font-size: 12.5px; overflow-wrap: anywhere; color: var(--ms-text); }
+.msettings .mskey { display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+
+.msettings .msbadge {
+  display: inline-flex; align-items: center; border-radius: 999px; padding: 2px 9px;
+  font-size: 11px; font-weight: 600; white-space: nowrap; width: fit-content;
+}
+.msettings .msbadge.tone-ok { background: rgba(64, 184, 112, .2); color: #6fd39c; }
+.msettings .msbadge.tone-warn { background: rgba(248, 136, 48, .2); color: #f8a868; }
+.msettings .msbadge.tone-off { background: rgba(140, 140, 140, .3); color: #d0d0d0; }
+.msettings .msbadge.tone-none { background: var(--ms-surface-2); color: var(--ms-text-dim); }
+:root[data-theme="light"] .msettings .msbadge.tone-ok { color: #1f8a4c; }
+:root[data-theme="light"] .msettings .msbadge.tone-warn { color: #b4610a; }
+:root[data-theme="light"] .msettings .msbadge.tone-off { background: #e6e6ec; color: #5d5d68; }
+
+/* Model list, per the operator's sample: one bordered container, one line
+   per model — name and badges left, action icons and the include toggle
+   right — with hairline dividers between rows. The health badge stays even
+   though the sample omits it: AMCA shows recorded evidence, never a guess. */
+.msettings .msmodels {
+  list-style: none; margin: 4px 0 10px; padding: 0; display: flex; flex-direction: column;
+  border: 1px solid var(--ms-line); border-radius: 10px; overflow: hidden;
+}
+.msettings .msmodel {
+  display: flex; align-items: center; gap: 10px; padding: 9px 12px;
+  border-top: 1px solid var(--ms-line-soft); min-width: 0; flex-wrap: wrap;
+}
+.msettings .msmodel:first-child { border-top: 0; }
+.msettings .msmodel:hover { background: var(--ms-surface-2); }
+.msettings .msmodel-toggle { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ms-text-dim); min-width: 112px; }
+.msettings .msmodel-name { font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1 1 auto; min-width: 0; }
+.msettings .msmodel .msbadge { flex-shrink: 0; }
+.msettings .msmodel small { flex-basis: 100%; }
+.msettings .msaddmodel { display: flex; gap: 8px; align-items: center; margin-top: 6px; }
+.msettings .msaddmodel input {
+  flex: 1 1 auto; min-width: 0; background: var(--ms-canvas); border: 1px solid var(--ms-line);
+  border-radius: 8px; color: var(--ms-text); padding: 7px 11px; font-size: 13px;
+}
+.msettings .msaddmodel input:focus-visible { outline: 2px solid var(--ms-accent); outline-offset: 1px; }
+
+/* The provider form keeps its existing contract, restyled for this surface. */
+.msettings-main .hub-provider-form {
+  display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 16px; margin-bottom: 18px;
+  background: var(--ms-surface-2); border: 1px solid var(--ms-line-soft); border-radius: 12px;
+}
+.msettings-main .hub-provider-form label { display: grid; gap: 5px; font-size: 12px; color: var(--ms-text-dim); }
+.msettings-main .hub-provider-form label.wide { grid-column: 1 / -1; }
+.msettings-main .hub-provider-form input,
+.msettings-main .hub-provider-form select,
+.msettings-main .hub-provider-form textarea {
+  background: var(--ms-canvas); border: 1px solid var(--ms-line); border-radius: 8px;
+  color: var(--ms-text); padding: 8px 11px; font-size: 13px; width: 100%;
+}
+.msettings-main .hub-provider-form p { grid-column: 1 / -1; margin: 0; font-size: 11px; color: var(--ms-text-faint); line-height: 1.5; }
+.msettings-main .hub-secret-preview { grid-column: 1 / -1; }
+
+/* Legacy Hub content is still rendered inside the sections this surface hosts.
+   Those rules carry their own light-on-light text colours, which fall below a
+   readable contrast ratio on the darker Model settings surface. Re-point the
+   inherited text and muted copy at the scoped tokens rather than editing the
+   shared stylesheet every other surface also depends on. */
+.msettings-main .settings-note
+.msettings-main .muted-copy
+.msettings-main .hub-list article span
+.msettings-main .hub-list article small
+.msettings-main .hub-section-heading span
+.msettings-main .hub-routing-summary span
+.msettings-main .hub-available-summary span
+.msettings-main .hub-readiness small
+.msettings-main .hub-source-grid span
+.msettings-main .hub-auto-card span
+.msettings-main .hub-stats span
+.msettings-main .hub-source-grid small
+.msettings-main .hub-status-card span
+.msettings-main .hub-empty-action span
+.msettings-main .hub-provider-form > p
+.msettings-main .hub-local-grid span
+.msettings-main .hub-local-grid small
+.msettings-main .hub-team-form > small.hub-team-hint
+.msettings-main .hub-utility-grid span
+.msettings-main .hub-provider-directory small { color: var(--ms-text-dim); }
+.msettings-main .hub-list article
+.msettings-main .hub-status-card > div
+.msettings-main .hub-source-grid button
+.msettings-main .hub-auto-card
+.msettings-main .hub-routing-candidates
+.msettings-main .hub-card
+.msettings-main .hub-management-panel {
+  background: var(--ms-surface-2);
+  border-color: var(--ms-line-soft);
+}
+.msettings-main .hub-list article strong
+.msettings-main .hub-section-heading strong { color: var(--ms-text); }
+.msettings-main .hub-empty { color: var(--ms-text-dim); }
+.msettings-main .hub-model-verify-row { border-top-color: var(--ms-line-soft); }
+.msettings-main .hub-test-ok { color: var(--ms-ok); }
+.msettings-main .hub-test-fail { color: var(--ms-warn); }
+.msettings-main .hub-secret-preview { color: var(--ms-text-faint); }
+
+@media (max-width: 1100px) {
+  .msettings-body { grid-template-columns: 196px minmax(0, 1fr); gap: 18px; }
+  .msettings .msrow { grid-template-columns: 140px minmax(0, 1fr); gap: 14px; }}
+
+/* Below this the two columns stop being readable side by side, so the
+   navigation stacks above the content instead of squeezing it. */
+@media (max-width: 820px) {
+  .msettings-body { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .msettings-nav { max-height: 320px; overflow-y: auto; }
+  .msettings .msrow { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .msettings .msrow-stack > .msrow-value { grid-column: auto; }
+  .msettings-main .hub-provider-form { grid-template-columns: minmax(0, 1fr); }
+  .msettings-main .hub-provider-form label.wide { grid-column: auto; }
+  .msettings-head { flex-direction: column; align-items: stretch; }
+  .msettings .msprovider-head { flex-direction: column; }
+  .msettings .msprovider-foot { flex-direction: column; align-items: stretch; }
+}
+
+/* -- Provider-mode controls (toggles, icon buttons, menus, dialog) ----------
+   These back the include/exclude toggles, the icon actions and the
+   add/edit-model dialog. They stay inside the .msettings scope so the rest
+   of the shell keeps its own control styling. */
+
+/* Toggle switch: the include/exclude control for providers and models. */
+.msettings .mstoggle {
+  position: relative; width: 38px; height: 21px; flex-shrink: 0;
+  border: 0; border-radius: 999px; cursor: pointer; padding: 0;
+  background: var(--ms-off); transition: background .15s ease;
+}
+.msettings .mstoggle.on { background: var(--ms-accent); }
+.msettings .mstoggle:disabled { opacity: .5; cursor: not-allowed; }
+.msettings .mstoggle:focus-visible { outline: 2px solid var(--ms-accent); outline-offset: 2px; }
+.msettings .mstoggle-knob {
+  position: absolute; top: 2px; left: 2px; width: 17px; height: 17px;
+  border-radius: 50%; background: #ffffff; transition: left .15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .35);
+}
+.msettings .mstoggle.on .mstoggle-knob { left: 19px; }
+.mstoggle-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.mstoggle-label { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; color: var(--ms-text); font-weight: 550; }
+
+/* Small round icon button: the model-row and header actions. */
+.msettings .msiconbtn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; flex-shrink: 0; border-radius: 8px;
+  background: transparent; border: 0; color: var(--ms-text-dim); cursor: pointer;
+}
+.msettings .msiconbtn:hover:not(:disabled) { background: var(--ms-surface-3); color: var(--ms-text); }
+.msettings .msiconbtn:disabled { opacity: .4; cursor: not-allowed; }
+.msettings .msiconbtn.danger:hover:not(:disabled) { background: rgba(248, 136, 48, .14); color: var(--ms-warn); }
+.msettings .msiconbtn svg { width: 16px; height: 16px; }
+.msettings .msiconbtn[aria-expanded="true"] { background: var(--ms-surface-3); color: var(--ms-text); }
+
+/* Kebab dropdown for provider actions. */
+.msettings .msmenu {
+  position: absolute; right: 0; top: calc(100% + 6px); z-index: 30; min-width: 210px;
+  background: var(--ms-surface-2); border: 1px solid var(--ms-line); border-radius: 10px;
+  padding: 5px; display: flex; flex-direction: column; gap: 1px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .4);
+}
+.msettings .msmenu button {
+  display: flex; align-items: center; gap: 9px; text-align: left;
+  background: transparent; border: 0; color: var(--ms-text);
+  padding: 8px 10px; border-radius: 7px; font-size: 13px; cursor: pointer; white-space: nowrap;
+}
+.msettings .msmenu button:hover:not(:disabled) { background: var(--ms-surface-3); }
+.msettings .msmenu button:disabled { opacity: .4; cursor: not-allowed; }
+.msettings .msmenu button.danger { color: var(--ms-warn); }
+.msettings .msmenu button svg { width: 15px; height: 15px; }
+.msoverlay-catch { position: fixed; inset: 0; z-index: 20; background: transparent; }
+.msettings .msprovider-head-actions { position: relative; }
+
+/* Live rows: label + editable control that commits on blur. */
+.msettings .msrow-live { align-items: center; }
+.msettings .msrow-input {
+  width: 100%; background: var(--ms-canvas); border: 1px solid var(--ms-line);
+  border-radius: 8px; color: var(--ms-text); padding: 8px 11px; font-size: 13px;
+}
+.msettings .msrow-input:focus-visible { outline: 2px solid var(--ms-accent); outline-offset: 1px; }
+.msettings .msrow-input:disabled { opacity: .5; cursor: not-allowed; }
+.msettings .mskey-field { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.msettings .mskey-field .msrow-input { flex: 1 1 auto; }
+/* Response-reliability fix: the unsaved-key hint sits under the key row so a
+   typed-but-uncommitted key is never silent while the card reads
+   "Credential missing". */
+.msettings .mshint { color: var(--ms-muted, var(--muted)); font-size: 12px; margin: 6px 0 0; }
+.msettings .mssave-key { flex-shrink: 0; }
+.msettings .msrename {
+  background: var(--ms-canvas); border: 1px solid var(--ms-accent); border-radius: 8px;
+  color: var(--ms-text); padding: 4px 9px; font-size: 16px; font-weight: 650; width: 320px; max-width: 100%;
+}
+.msettings .msprovider-glyph {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; flex-shrink: 0; border-radius: 9px;
+  background: var(--ms-surface-3); color: var(--ms-text);
+}
+.msettings .msprovider-glyph svg { width: 18px; height: 18px; }
+.msettings .msprovider-title { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.msettings .msprovider-title h2 { margin: 0 0 3px; font-size: 18px; font-weight: 650; }
+
+/* Model rows: name, recorded badges, icon actions, include toggle. */
+.msettings .msmodel-actions { display: flex; align-items: center; gap: 2px; margin-left: auto; flex-shrink: 0; }
+.msettings .msbadge.meta { background: var(--ms-surface-2); color: var(--ms-text-dim); border: 1px solid var(--ms-line-soft); font-weight: 550; }
+
+/* Disclosure (Advanced settings). */
+.msettings .msdisclosure {
+  display: inline-flex; align-items: center; gap: 7px; align-self: flex-start;
+  background: transparent; border: 0; color: var(--ms-text); font-size: 13px;
+  font-weight: 550; cursor: pointer; padding: 4px 2px;
+}
+.msettings .msdisclosure:hover { color: var(--ms-accent); }
+.msettings .msprovider-advanced { display: flex; flex-direction: column; gap: 8px; }
+.msettings .msprovider-advanced .msrow { border-top: 0; padding: 4px 0; }
+.msettings .msmodal-advanced { display: flex; flex-direction: column; gap: 6px; }
+
+/* Help "?" pip for recorded fields. */
+.msettings .msinfo {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 15px; height: 15px; border-radius: 50%; flex-shrink: 0;
+  border: 1px solid var(--ms-line); color: var(--ms-text-faint);
+  font-size: 10px; cursor: help; user-select: none;
+}
+
+/* The add/edit-model dialog. */
+.msmodal-overlay {
+  position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center;
+  background: rgba(8, 8, 8, .62); padding: 24px;
+}
+.msmodal-overlay .msmodal {
+  width: 520px; max-width: 100%; max-height: calc(100vh - 48px); overflow-y: auto;
+  background: var(--ms-surface); border: 1px solid var(--ms-line); border-radius: 14px;
+  padding: 20px 22px; display: flex; flex-direction: column; gap: 14px;
+  color: var(--ms-text); box-shadow: 0 18px 50px rgba(0, 0, 0, .5);
+}
+.msmodal-overlay .msmodal-head { display: flex; align-items: center; justify-content: space-between; }
+.msmodal-overlay .msmodal-head h2 { margin: 0; font-size: 17px; font-weight: 650; }
+.msmodal-overlay .msmodal-body { display: flex; flex-direction: column; gap: 13px; }
+.msmodal-overlay .msfield { display: grid; gap: 5px; font-size: 12.5px; color: var(--ms-text-dim); }
+.msmodal-overlay .msfield input {
+  background: var(--ms-canvas); border: 1px solid var(--ms-line); border-radius: 8px;
+  color: var(--ms-text); padding: 8px 11px; font-size: 13px; width: 100%;
+}
+.msmodal-overlay .msfield input:focus-visible { outline: 2px solid var(--ms-accent); outline-offset: 1px; }
+.msmodal-overlay .msfield input:disabled { opacity: .5; cursor: not-allowed; }
+.msmodal-overlay .msmodal-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.msmodal-overlay .msmodal-foot-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+.msmodal-overlay .msmodal-note { margin: 0; }
+.msmodal-foot-actions { display: flex; align-items: center; gap: 8px; }
+
+:root[data-theme="light"] .msmodal-overlay { background: rgba(40, 40, 46, .35); }
+:root[data-theme="light"] .msettings .msmenu { box-shadow: 0 10px 28px rgba(30, 30, 40, .18); }
+:root[data-theme="light"] .msettings .mstoggle-knob { box-shadow: 0 1px 2px rgba(0, 0, 0, .2); }
+
+:root[data-theme="light"] .msettings .msbadge.meta { background: #f0f0f4; color: #5d5d68; }

@@ -1,0 +1,111 @@
+[
+ {
+  "label": "simple",
+  "run_id": "ed01d1a6894546dc985769c930cd3e2b",
+  "status": "succeeded",
+  "calls": 1,
+  "adapters": [
+   "ollama:qwen3:1.7b"
+  ],
+  "failed_calls": [],
+  "escalations": 0,
+  "trace": [
+   [
+    "solo",
+    "solo"
+   ]
+  ]
+ },
+ {
+  "label": "moderate",
+  "run_id": "08eb9b3657ac4698b7568eeec68997c7",
+  "status": "succeeded",
+  "calls": 4,
+  "adapters": [
+   "ollama:dolphin-llama3:8b",
+   "ollama:qwen3:1.7b"
+  ],
+  "failed_calls": [
+   [
+    "ollama:dolphin-llama3:8b",
+    "Response is not valid JSON: Expecting ',' delimiter"
+   ]
+  ],
+  "escalations": 1,
+  "trace": [
+   [
+    "solo",
+    "parallel"
+   ],
+   [
+    null,
+    null
+   ]
+  ]
+ },
+ {
+  "label": "escalation-1",
+  "run_id": "1362b7180dd947118c5affeabee8bd34",
+  "status": "succeeded",
+  "calls": 1,
+  "adapters": [
+   "ollama:qwen3:1.7b"
+  ],
+  "failed_calls": [],
+  "escalations": 0,
+  "trace": [
+   [
+    "solo",
+    "solo"
+   ]
+  ]
+ },
+ {
+  "label": "escalation-2",
+  "run_id": "c2fd88c7748f4b6689ccdb73a959f5d2",
+  "status": "succeeded",
+  "calls": 6,
+  "adapters": [
+   "ollama:dolphin-llama3:8b",
+   "ollama:qwen3:1.7b"
+  ],
+  "failed_calls": [],
+  "escalations": 2,
+  "trace": [
+   [
+    "solo",
+    "parallel"
+   ],
+   [
+    null,
+    null
+   ],
+   [
+    "parallel",
+    "joint"
+   ]
+  ]
+ },
+ {
+  "label": "escalation-3",
+  "run_id": "9c443b31fb0b4c1ba69d3a17e38b069f",
+  "status": "succeeded",
+  "calls": 3,
+  "adapters": [
+   "ollama:dolphin-llama3:8b",
+   "ollama:qwen3:1.7b"
+  ],
+  "failed_calls": [],
+  "escalations": 1,
+  "trace": [
+   [
+    "solo",
+    "parallel"
+   ],
+   [
+    null,
+    null
+   ]
+  ]
+ }
+]

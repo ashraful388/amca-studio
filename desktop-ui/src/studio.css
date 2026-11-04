@@ -1,0 +1,432 @@
+/* Conversation-first desktop shell. Legacy feature surfaces inherit neutral tokens. */
+:root, :root[data-theme="dark"] { color-scheme:dark; --ink:#eeeef0; --muted:#b1b1bb; --faint:#92929e; --line:#34343c; --line-strong:#50505c; --panel:#242429; --panel-solid:#242429; --panel-high:#303037; --canvas:#1b1b20; --sidebar:#202025; --green:#a7a5ff; --green-strong:#817ce9; --green-dim:#a7a5ff18; --radius:12px; color:var(--ink); background:var(--canvas); }
+:root[data-theme="light"] { color-scheme:light; --ink:#232329; --muted:#62626e; --faint:#747481; --line:#e1e1e7; --line-strong:#c7c7d1; --panel:#fff; --panel-solid:#fff; --panel-high:#f0f0f5; --canvas:#fff; --sidebar:#f5f5f8; --green:#5551ae; --green-strong:#6660cc; --green-dim:#6660cc10; color:var(--ink); background:var(--canvas); }
+body { margin:0; background:var(--canvas); font-family:Inter,ui-sans-serif,system-ui,"Segoe UI",sans-serif; font-size:14px; color:var(--ink); }
+button,input,textarea,select { font:inherit; } button { cursor:pointer; } button:disabled { cursor:not-allowed; opacity:.5; } :focus-visible { outline:2px solid var(--green); outline-offset:3px; }
+h1,h2,h3,h4,h5 { font-family:inherit; letter-spacing:-.025em; } h1 { font-size:24px; } h2 { font-size:20px; } small { font-size:12px; }
+
+.studio-shell { display:grid; grid-template-columns:236px minmax(0,1fr); height:100dvh; min-height:0; overflow:hidden; background:var(--canvas); }
+.studio-shell.left-closed { grid-template-columns:minmax(0,1fr); }
+.studio-shell.right-open { grid-template-columns:236px minmax(0,1fr) var(--inspector-width); }
+.studio-shell.left-closed.right-open { grid-template-columns:minmax(0,1fr) var(--inspector-width); }
+
+.studio-shell .sidebar { width:auto; min-width:0; height:100%; position:relative; padding:14px 10px 0; gap:8px; display:flex; flex-direction:column; overflow:hidden; background:var(--sidebar); border-right:1px solid var(--line); }
+.studio-shell.left-closed .sidebar { display:none; }
+/* Compact footer: avatar, name, and two icon actions (updates, settings). */
+.studio-shell .sidebar-footer.sidebar-footer-compact { display:flex; flex-direction:row; align-items:center; gap:8px; padding:10px 8px 12px; flex-shrink:0; }
+.sidebar-footer-compact .footer-avatar {
+  width:30px; height:30px; border-radius:50%; flex-shrink:0;
+  display:inline-flex; align-items:center; justify-content:center;
+  background:var(--panel-high); color:var(--ink); font-weight:650; font-size:13px;
+}
+.sidebar-footer-compact .profile-row { flex:1 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:600; }
+.sidebar-footer-compact .icon-button { width:32px; height:32px; }
+/* An available release paints the updates icon in the accent green so it
+   reads at a glance; the check itself stays manual. */
+.sidebar-footer-compact .icon-button.update-available { color:var(--green-strong); background:var(--green-dim); }
+
+.studio-shell .brand { display:flex; justify-content:space-between; align-items:center; padding:0 8px; min-height:32px; margin:0; flex-shrink:0; }
+.studio-shell .brand strong { font-size:15px; }
+/* Brand identity: official AMCA symbol beside the product name; the full
+   banner renders on the About panel. */
+.brand-identity { display:flex; align-items:center; gap:8px; min-width:0; }
+.brand-symbol { width:24px; height:24px; border-radius:6px; flex-shrink:0; }
+.about-logo { display:block; width:100%; max-width:460px; margin:0 auto 16px; border-radius:8px; }
+
+/* Operator contract: primary destinations, section headings and settings
+   entries read as bold — they are the navigation, not body copy. */
+.studio-primary-nav { display:grid; gap:2px; flex-shrink:0; }
+.studio-primary-nav button { font-weight:600; }
+.studio-primary-nav button small { font-weight:500; }
+.conversation-section-heading { font-weight:650; }
+.conversation-section-heading button { font-weight:650; }
+.sidebar-project-open strong { font-weight:650; }
+.studio-settings-nav button { font-weight:600; }
+.studio-primary-nav button,.sidebar-footer button,.sidebar-project-open { display:flex; align-items:center; gap:10px; padding:8px; border:0; border-radius:7px; color:var(--ink); background:transparent; text-align:left; width:100%; min-height:34px; }
+.studio-primary-nav button:hover,.sidebar button:hover,.thread-menu-trigger:hover,.thread-menu-trigger[aria-expanded="true"] { background:var(--panel-high); }
+.studio-shell .sidebar svg { width:17px; height:17px; flex-shrink:0; }
+
+.conversation-section-heading { padding:4px 8px; font-size:12px; color:var(--muted); display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+.conversation-section-heading button { background:transparent; border:0; color:inherit; }
+
+/* Operator contract: Projects and Chats each hold about a third of the
+   sidebar as a stable placeholder, whichever list is shorter, instead of
+   Chats sliding up under a short Projects list. The third is a flex BASIS,
+   not a minimum: both sections shrink together when the window is short, so
+   the pinned footer can never be pushed off or cover rows. */
+.studio-shell .sidebar-project-section { flex:0 1 33%; overflow:hidden; display:flex; flex-direction:column; }
+.studio-shell .sidebar-project-list { flex:0 1 auto; min-height:0; overflow-y:auto; overflow-x:hidden; scrollbar-gutter:stable; }
+.studio-shell .sidebar-project-section .conversation-section-heading { flex-shrink:0; }
+.studio-shell .conversation-section { flex:1 1 33%; overflow:hidden; display:flex; flex-direction:column; }
+.studio-shell .conversation-list { display:flex; flex-direction:column; gap:2px; padding-bottom:12px; flex:1 1 auto; min-height:0; overflow-y:auto; overflow-x:hidden; scrollbar-gutter:stable; }
+.studio-shell .conversation-row { position:relative; display:flex; align-items:center; border:0; border-radius:7px; background:transparent; padding:0; min-height:34px; }
+.studio-shell .conversation-row.active,.sidebar-project-open.active { background:var(--panel-high); }
+.studio-shell .conversation-open { min-width:0; padding:8px; flex:1; text-align:left; background:transparent; border:0; color:var(--ink); }
+.studio-shell .conversation-open strong { font-size:13px; font-weight:400; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; }
+
+.thread-menu { position:relative; flex-shrink:0; }
+.thread-menu-trigger { background:transparent; border:0; color:var(--muted); padding:4px 8px; border-radius:6px; cursor:pointer; font-size:16px; line-height:1; }
+.thread-menu-dropdown { position:absolute; top:100%; right:0; background:var(--panel-solid); box-shadow:0 10px 30px rgba(0,0,0,0.45); border:1px solid var(--line-strong); border-radius:8px; padding:6px; width:200px; z-index:100; display:grid; gap:4px; }
+.thread-menu-dropdown button { background:transparent; color:var(--ink); padding:8px; border:0; border-radius:6px; text-align:left; cursor:pointer; font-size:13px; }
+.thread-menu-dropdown button:hover { background:var(--panel-high); }
+.thread-menu-dropdown button.danger { color:#ff6b6b; }
+.thread-menu-dropdown button.danger:hover { background:#ff6b6b22; }
+.thread-menu-dropdown label { display:grid; gap:4px; padding:6px 8px; font-size:12px; color:var(--muted); }
+.thread-menu-dropdown select { background:var(--panel-high); border:1px solid var(--line); border-radius:4px; color:var(--ink); padding:4px; font-size:12px; }
+
+.studio-shell .sidebar-footer { flex-shrink:0; margin-top:auto; position:sticky; bottom:0; z-index:10; background:var(--sidebar); display:grid; gap:4px; padding:10px 8px 12px; border-top:1px solid var(--line); }
+.profile-row { font-size:13px; font-weight:500; }
+.sidebar-footer small { color:var(--muted); font-size:12px; }
+
+.studio-settings-nav { display:grid; gap:2px; flex:1 1 auto; min-height:0; overflow-y:auto; overflow-x:hidden; padding:4px 0 12px; scrollbar-gutter:stable; }
+.studio-settings-nav button { display:flex; align-items:center; gap:10px; padding:8px 10px; border:0; border-radius:7px; color:var(--muted); background:transparent; text-align:left; width:100%; min-height:36px; font-size:13px; cursor:pointer; }
+.studio-settings-nav button:hover { background:var(--panel-high); color:var(--ink); }
+.studio-settings-nav button.active { background:var(--panel-high); color:var(--ink) !important; font-weight:600; box-shadow: inset 2px 0 var(--green, #31c881); }
+.settings-back-button { display:flex; align-items:center; gap:8px; background:transparent; border:0; color:var(--ink); font-weight:600; font-size:14px; cursor:pointer; padding:6px 0; }
+.settings-back-button:hover { color:var(--green); }
+
+.consolidated-settings { display:block; max-width:1000px; margin:0 auto; width:100%; }
+.consolidated-settings > nav { display:none; }
+
+.studio-shell main { min-width:0; min-height:0; display:flex; flex-direction:column; overflow:hidden; background:var(--canvas); }
+.studio-shell .topbar { display:flex; align-items:center; justify-content:space-between; height:52px; min-height:52px; padding:8px 16px; border-bottom:1px solid var(--line); background:var(--canvas); gap:8px; }
+.topbar > div,.topbar-actions { min-width:0; display:flex; align-items:center; gap:10px; }
+.topbar strong { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:14px; }
+.topbar-actions { flex-shrink:0; }
+.topbar button,.context-inspector header button { background:transparent; border:0; color:var(--ink); padding:7px; border-radius:6px; font-size:13px; white-space:nowrap; }
+
+.studio-shell .content-area { padding:20px; min-height:0; flex:1; overflow:auto; }
+.studio-shell .content-area:has(> .chat-shell) { padding:0; display:flex; flex-direction:column; overflow:hidden; }
+/* The legacy stylesheet caps .chat-shell at max-width:980px and centres it
+   with margin:0 auto. The studio shell wants a fluid chat column, so the cap
+   and the auto margins are cleared here — otherwise the conversation column
+   sits in a 980px box with empty gutters on both sides. */
+.studio-shell .chat-shell { flex:1; min-height:0; height:100%; display:flex; flex-direction:column; background:var(--canvas); border:0; border-radius:0; padding:0; max-width:none; margin:0; }
+.studio-shell .chat-transcript { flex:1; min-height:0; overflow-y:auto; padding:28px clamp(20px, 3.5vw, 56px); display:block; }
+.studio-shell .chat-message { display:flex; gap:12px; padding:12px 0; margin-bottom:12px; background:transparent; border:0; box-shadow:none; font-size:15px; line-height:1.7; }
+.chat-message > div:last-child { min-width:0; flex:1; } .studio-shell .chat-user { margin-left:12%; padding:14px 18px; border-radius:16px; background:var(--panel-high); }
+.studio-shell .chat-avatar { display:none; } .chat-message > div > strong { font-size:12px; color:var(--muted); }
+.studio-shell .chat-composer { flex:none; position:relative; width:calc(100% - 48px); max-width:none; margin:8px auto 20px; padding:12px 14px; border:1px solid var(--line-strong); border-radius:18px; background:var(--panel); box-shadow:0 4px 18px #0001; }
+.studio-shell .chat-composer textarea { height:auto; min-height:52px; max-height:180px; width:100%; padding:4px; resize:none; font-size:15px; background:transparent; border:0; color:var(--ink); }
+.studio-shell .chat-composer-footer { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px; margin:8px 0 0; padding:0; border:0; }
+/* R5: the toolbar rows wrap onto separate lines when narrow — controls may
+   shrink, but they never paint over each other. */
+.chat-composer-footer { display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; min-width:0; }
+.chat-composer-tools { display:flex; align-items:center; flex-wrap:wrap; gap:4px; min-width:0; flex:1 1 300px; }
+.composer-execution { display:flex; align-items:center; flex-wrap:wrap; gap:4px; min-width:0; flex:1 1 320px; justify-content:flex-end; }
+.chat-composer-tools button,.chat-composer-tools select,.composer-execution select { border:0; border-radius:6px; padding:6px; background:transparent; color:var(--ink); font-size:12px; max-width:185px;  flex-shrink:0; }
+.chat-composer-tools select option,.composer-execution select option { background:var(--panel, #1e2029); color:var(--ink, #f3f4f6); }
+.studio-shell .chat-attach-button { padding:6px; width:28px; min-height:28px; border:0; font-size:18px; color:var(--ink); cursor:pointer; }
+.studio-shell .chat-attach-button input { position:absolute; width:1px; height:1px; opacity:0; }
+.primary-button { background:var(--green-strong); color:white; border:0; border-radius:8px; padding:8px 14px; box-shadow:none; }
+.project-context-bar { display:block; width:100%; padding:4px 2px 10px; margin-bottom:8px; background:transparent; text-align:left; border:0; border-bottom:1px solid var(--line); color:var(--muted); font-size:12px; }
+
+.context-inspector { position:relative; min-width:0; display:flex; flex-direction:column; background:var(--sidebar); border-left:1px solid var(--line); overflow:hidden; }
+.context-inspector > header { display:flex; justify-content:space-between; align-items:center; padding:10px 14px; height:52px; border-bottom:1px solid var(--line); }
+.context-inspector > nav { display:flex; flex-wrap:wrap; gap:3px; padding:8px; border-bottom:1px solid var(--line); }
+.context-inspector nav button,.consolidated-settings nav button { background:transparent; border:0; border-radius:6px; color:var(--muted); padding:8px; font-size:12px; }
+.context-inspector nav button.active,.consolidated-settings nav button.active { background:var(--panel-high); color:var(--ink); }
+.inspector-body { padding:12px; overflow:auto; flex:1; min-height:0; } .inspector-body .workspace-view { padding:0; } .inspector-body .metrics-grid,.inspector-body .settings-grid { grid-template-columns:1fr; }
+.inspector-resize { position:absolute; left:0; top:0; bottom:0; width:5px; cursor:col-resize; z-index:2; touch-action:none; }
+.inspector-body > *, .inspector-body .workbench-shell, .inspector-body .workbench-surface { min-width:0; max-width:100%; }
+.browser-inspector select { min-width:0; max-width:100%; width:100%; }
+.inspector-body .room-banner { display:block; padding:16px; background:var(--panel); overflow-wrap:anywhere; }
+.inspector-body .room-layout { grid-template-columns:minmax(0,1fr); }
+.inspector-body .room-main,.inspector-body .room-aside { min-width:0; }
+.inspector-body .focus-topline { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.inspector-body .focus-topline strong,.inspector-body .participant strong,.inspector-body .progress-ring strong,.inspector-body .event-copy strong { color:var(--ink); }
+.inspector-body .workbench-files { grid-template-columns:minmax(0,1fr); }
+.inspector-body .workbench-tabs { flex-wrap:wrap; }
+.inspector-body .view-heading { display:block; }
+.inspector-body .view-heading p { white-space:normal; overflow-wrap:anywhere; }
+
+.settings-detail { container-type:inline-size; min-width:0; }
+.settings-detail > h1 { margin:0 0 20px; }
+@container (max-width:680px) { .permission-grid { grid-template-columns:minmax(0,1fr); } }
+.pane-scrim { display:none; }
+
+.settings-detail .chat-header { display:block; padding:0; } .settings-detail .chat-header-actions { display:block; } .settings-detail .settings-grid { display:block; }
+.panel { background:var(--panel); border:1px solid var(--line); box-shadow:none; border-radius:10px; padding:16px; margin-bottom:16px; }
+.markdown-message pre { position:relative; overflow:auto; background:var(--panel-high); border-radius:8px; padding:16px; } .markdown-message table { display:block; max-width:100%; overflow:auto; border-collapse:collapse; } .markdown-message img { max-width:100%; border-radius:8px; } .markdown-message a { color:var(--green); } .markdown-message .katex-display { overflow:auto; padding:6px; } .studio-shell .chat-hero { margin:12vh auto; text-align:center; }
+.hub-auto-card,.hub-source-grid button { background:var(--panel-high); color:var(--ink); } .hub-auto-card * { color:var(--ink); }
+
+@media(max-width:1080px) {
+  .studio-shell.right-open { grid-template-columns:236px minmax(0,1fr)!important; }
+  .studio-shell.left-closed.right-open { grid-template-columns:minmax(0,1fr)!important; }
+  .context-inspector { position:fixed!important; right:0!important; top:0!important; bottom:0!important; width:min(var(--inspector-width, 420px),90vw)!important; z-index:70!important; box-shadow:-12px 0 40px rgba(0,0,0,0.35)!important; }
+  .right-scrim { display:block!important; position:fixed!important; inset:0!important; z-index:60!important; background:rgba(0,0,0,0.4)!important; border:0!important; }}
+@media(max-width:850px) {
+  .studio-shell,.studio-shell.right-open { grid-template-columns:minmax(0,1fr)!important; }
+  .studio-shell .sidebar { position:fixed!important; left:0!important; top:0!important; bottom:0!important; width:236px!important; z-index:70!important; box-shadow:12px 0 40px rgba(0,0,0,0.35)!important; }
+  .left-scrim { display:block!important; position:fixed!important; inset:0!important; background:rgba(0,0,0,0.4)!important; border:0!important; z-index:60!important; }
+  .studio-shell .topbar { padding:8px 12px; }}
+
+.command-centre { max-width:1000px; margin:0 auto; width:100%; overflow-x:hidden; }
+.command-centre .response-actions { display:flex; flex-wrap:wrap; gap:6px; margin:12px 0; }
+.response-actions button,.response-actions summary,.file-row button,.skills-workspace button,.browser-inspector button { font-size:12px; padding:6px 8px; background:transparent; border:1px solid var(--line); border-radius:6px; color:var(--muted); }
+.response-actions button:hover,.response-actions button[aria-pressed="true"] { color:var(--ink); background:var(--panel-high); }
+/* The four everyday response actions are icons: a square, quiet button that
+   carries the action in its label. Everything else lives in the "more
+   options" menu beside them. */
+.response-actions .response-action-icon { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; padding:0; }
+.response-actions .response-action-icon svg { width:15px; height:15px; }
+.response-actions .response-actions-more { position:relative; display:inline-block; }
+.response-actions .response-actions-more > summary { display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; padding:0; list-style:none; cursor:pointer; }
+.response-actions .response-actions-more > summary::-webkit-details-marker { display:none; }
+.response-actions .response-actions-more > summary svg { width:15px; height:15px; }
+.response-actions .response-actions-more[open] > summary { color:var(--ink); background:var(--panel-high); }
+/* The menu opens as a small panel over the transcript. */
+.response-actions .response-actions-menu { position:absolute; top:calc(100% + 4px); left:0; z-index:20; display:grid; gap:2px; min-width:180px; padding:4px; background:var(--panel-solid); border:1px solid var(--line-strong); border-radius:8px; box-shadow:0 10px 28px rgba(0,0,0,0.4); }
+.response-actions .response-actions-menu button { display:block; width:100%; text-align:left; white-space:nowrap; }
+.file-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; padding:12px 0; border-bottom:1px solid var(--line); } .file-row > div { flex:1; min-width:150px; display:grid; gap:4px; } .file-row small { color:var(--muted); }
+.source-preview { display:grid; gap:12px; } .source-preview img { max-width:100%; } .source-preview iframe { width:100%; height:65vh; border:0; } .source-preview pre,.browser-inspector pre { white-space:pre-wrap; overflow-wrap:anywhere; font-size:13px; }
+.browser-inspector label,.skills-workspace label { display:grid; gap:6px; margin:12px 0; } .browser-inspector input,.skills-workspace input,.skills-workspace textarea { background:var(--panel); border:1px solid var(--line); border-radius:6px; color:var(--ink); padding:8px; width:100%; }
+.code-block { border:1px solid var(--line); border-radius:9px; margin:12px 0; overflow:hidden; } .code-block header { display:flex; align-items:center; padding:6px 12px; gap:8px; background:var(--panel-high); font-size:12px; } .code-block header span { flex:1; } .code-block button { background:transparent; border:0; color:var(--muted); } .code-block pre { margin:0; border-radius:0; font-size:13px; }
+.syntax-keyword { color:var(--violet); } .syntax-string { color:var(--blue); } .syntax-number { color:var(--amber); } .inline-image { border:0; background:transparent; padding:0; }
+.project-sources { max-width:1000px; margin:auto; } .project-sources input[type="file"] { max-width:210px; font-size:12px; } .ki-picker { max-height:40vh; overflow:auto; } .view-jump { max-height:80vh; overflow:auto; }
+[data-theme="light"] .studio-shell .sidebar { background:var(--sidebar); } [data-theme="light"] .studio-shell .chat-shell,[data-theme="light"] .studio-shell main { background:var(--canvas); } [data-theme="light"] .studio-shell .chat-composer { background:var(--panel); }
+[data-theme="light"] .studio-shell .conversation-row.active { background:var(--panel-high); } [data-theme="light"] .studio-shell .conversation-open { color:var(--ink); }
+
+/* Override legacy dashboard breakpoints and fixed dark text colors. */
+.studio-shell { color:var(--ink)!important; font-size:14px!important; }
+.studio-shell .studio-primary-nav { grid-template-columns:1fr!important; padding:0!important; }
+.studio-shell .studio-primary-nav button { font-size:14px!important; min-height:36px!important; justify-content:flex-start!important; color:var(--ink)!important; padding:8px!important; }
+.studio-shell .sidebar-project-open strong,.studio-shell .conversation-open strong { font-size:13px!important; color:var(--ink)!important; }
+.studio-shell h1 { color:var(--ink)!important; font-size:24px!important; }
+.studio-shell h2 { color:var(--ink)!important; font-size:19px!important; }
+.studio-shell h3 { color:var(--ink)!important; font-size:16px!important; }
+.studio-shell h4,.studio-shell h5 { color:var(--ink)!important; font-size:14px!important; }
+.studio-shell .section-kicker { color:var(--muted)!important; font-size:12px!important; letter-spacing:.06em!important; }
+.studio-shell .panel { color:var(--ink)!important; background:var(--panel)!important; box-shadow:none!important; }
+.studio-shell small,.studio-shell .settings-note,.studio-shell .muted-copy,.studio-shell .conversation-empty { font-size:12px!important; color:var(--muted)!important; }
+.studio-shell .secondary-button { background:var(--panel-high)!important; color:var(--ink)!important; border:1px solid var(--line)!important; font-size:13px!important; padding:8px 12px!important; }
+.studio-shell .topbar strong { color:var(--ink)!important; font-size:14px!important; }
+.studio-shell .conversation-row { min-height:34px!important; }
+.studio-shell input,.studio-shell textarea,.studio-shell select { color:var(--ink); }
+.studio-shell .view-heading { margin-bottom:24px; }
+.studio-shell .project-sources .panel-heading { margin:20px 0 12px; }
+.studio-shell .file-row button { font-size:13px; color:var(--ink); }
+.studio-shell .source-preview pre { font-size:13px; line-height:1.65; }
+.studio-shell .chat-message > div > strong { color:var(--muted)!important; font-size:12px!important; }
+.studio-shell .chat-message p,.studio-shell .markdown-message { font-size:15px!important; line-height:1.75; color:var(--ink)!important; }
+/* Quick actions carry real icons (plus/slash/at/brain) instead of text
+   glyphs. The attach button is the only primary action in the row. */
+.studio-shell .chat-composer-tools button svg { width:16px; height:16px; display:block; }
+.studio-shell .chat-composer-tools .chat-attach-button { color:var(--ink); }
+.studio-shell .chat-composer-tools button { font-size:16px; min-width:28px; display:inline-flex; align-items:center; justify-content:center; }
+.studio-shell .chat-composer-tools select { font-size:12px; }
+
+/* v1.1.15: the composer's + menu had NO rule at all, while the click-away
+   overlay it renders (z-index 999) covered the whole window and was painted
+   ABOVE the menu.  Every click on a menu entry therefore hit the overlay,
+   which only closed the menu: "Attachments", "Commands", "Context" and
+   "Skills" never ran, and the file picker never opened.  The menu is now a
+   real popup, anchored to the + button and stacked ABOVE the overlay
+   (1000 > 999), exactly like the model menu.  These rules live HERE, after
+   the composer-tool rules above, so they win the cascade against the
+   16px / 185px toolbar defaults. */
+.composer-plus-menu { position:fixed; width:300px; max-width:calc(100vw - 24px); max-height:min(380px, calc(100vh - 40px)); overflow-y:auto; overflow-x:hidden; background:var(--panel-solid); border:1px solid var(--line-strong); border-radius:10px; box-shadow:0 12px 34px rgba(0,0,0,0.45); padding:6px; z-index:1000; display:grid; gap:2px; overscroll-behavior:contain; }
+.composer-plus-menu * { min-width:0; }
+.studio-shell .chat-composer-tools .composer-plus-menu button { font-size:12px; min-width:0; max-width:none; width:100%; display:flex; align-items:center; justify-content:flex-start; gap:8px; padding:6px 8px; border:0; border-radius:6px; background:transparent; color:var(--ink); text-align:left; cursor:pointer; }
+.studio-shell .chat-composer-tools .composer-plus-menu button:hover { background:var(--panel-high); }
+.studio-shell .chat-composer-tools .composer-plus-menu button svg { width:15px; height:15px; flex-shrink:0; }
+.studio-shell .chat-composer-tools .composer-plus-menu button span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.studio-shell .chat-composer-tools .composer-plus-menu button small { margin-left:auto; padding-left:8px; color:var(--muted); font-size:11px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.recorded-details { font-size:13px; overflow-wrap:anywhere; } .recorded-details > div { padding:8px 0; border-bottom:1px solid var(--line); } .recorded-details dt { color:var(--muted); text-transform:capitalize; } .recorded-details dd { margin:4px 0 0 10px; }
+.research-workspace label { display:grid; gap:8px; } .research-workspace textarea { width:100%; padding:12px; background:var(--panel); border:1px solid var(--line); border-radius:10px; color:var(--ink); margin-bottom:10px; }
+
+.studio-shell h1,.studio-shell h2,.studio-shell h3 { font-family:inherit!important; }
+.studio-shell .markdown-message code,.studio-shell .code-block pre,.studio-shell .code-block code { color:var(--ink)!important; font-size:13px!important; background:var(--panel-high)!important; }
+.studio-shell .code-block code span { color:inherit; }
+.studio-shell .code-block .syntax-keyword { color:var(--violet); }
+.studio-shell .code-block .syntax-string { color:var(--blue); }
+.studio-shell .code-block .syntax-number { color:var(--amber); }
+.studio-shell * { scrollbar-color:var(--line-strong) transparent; scrollbar-width:thin; }
+.message-provenance { color:var(--muted); font-size:12px; margin-top:8px; }
+.message-provenance summary { cursor:pointer; }
+.agent-role-note { color:var(--muted); font-size:12px; margin-top:8px; }
+/* v1.1.8: governed tool activity shown directly under the answer. */
+.message-tools { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.message-tools span { border:1px solid var(--line-strong); border-radius:999px; padding:2px 10px; font-size:12px; color:var(--muted); }
+/* Response-UX R3: the ZCode-style detail block — collapsed by default,
+   same muted register as the Tools chips and Run details. */
+.message-what-done { color:var(--muted); font-size:12px; margin-top:8px; }
+.message-what-done summary { cursor:pointer; }
+.message-what-done ul { margin:6px 0 0; padding-left:18px; }
+.message-what-done li { margin:2px 0; }
+/* Response-UX R5: the thinking/execution feed inside the thinking
+   bubble.  Rendered only while the run is in flight, so it disappears
+   with the final answer like ZCode's thinking block. */
+.message-activity-feed { margin:8px 0 0; padding-left:18px; color:var(--muted); font-size:12px; list-style:disc; }
+.message-activity-feed li { margin:2px 0; }
+.thinking-header { color:var(--muted); font-size:12px; margin:4px 0 0; }
+.thinking-elapsed { color:var(--muted); font-weight:normal; font-size:12px; }
+/* v1.2.0: the Project folder is chosen once at Project creation, so the
+   composer only states it - there is no inline folder editor any more. */
+.project-folder-field { display:flex; flex-direction:column; gap:6px; }
+.project-folder-row { display:flex; gap:8px; align-items:center; }
+.project-folder-row input { flex:1 1 auto; min-width:220px; }
+.project-folder-field small { color:var(--muted); font-size:12px; }
+.full-access-scope { margin-top:12px; padding-top:12px; border-top:1px solid var(--line-strong); }
+
+.studio-shell .sidebar nav span { display:inline!important; }
+.studio-shell .conversation-section { display:flex!important; }
+.studio-shell .sidebar-project-section { display:block!important; }
+.studio-shell .project-sources button { background:var(--panel-high); color:var(--ink); border:1px solid var(--line); border-radius:6px; padding:6px 8px; }
+.studio-shell main { grid-column:auto; }
+
+.thread-dialog { max-width:460px; width:calc(100% - 48px); border:1px solid var(--line); border-radius:12px; background:var(--panel); color:var(--ink); padding:24px; } .thread-dialog::backdrop { background:#0008; } .thread-dialog label { display:grid; gap:8px; } .thread-dialog input { padding:10px; border:1px solid var(--line); border-radius:6px; background:var(--panel-high); width:100%; }
+
+.studio-shell .markdown-message th { color:var(--ink)!important; background:var(--panel-high)!important; }
+.studio-shell .inspector-body summary,.studio-shell .inspector-body summary strong { color:var(--ink)!important; }
+.studio-shell .view-jump { background:var(--panel); color:var(--ink); }
+.studio-shell .view-jump input { background:var(--panel-high); }
+[data-theme="light"] .studio-shell .error-banner strong,[data-theme="light"] .studio-shell .error-banner span { color:#7a2020; }
+
+/* 16A P3: multi-model composer dropdown */
+/* The wrap sizes to its button: a flex slot narrower than the button text
+   let the button paint over the neighboring select. */
+.model-select-wrap { position:relative; min-width:0; flex:0 0 auto; }
+.studio-shell .model-select-button { position:relative; z-index:1001; border:1px solid var(--line); border-radius:6px; padding:6px 10px; background:var(--panel-high); color:var(--ink); font-size:12px; max-width:260px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; cursor:pointer; }
+.studio-shell .model-select-button:hover { border-color:var(--line-strong); }
+.model-menu-overlay { position:fixed; inset:0; z-index:999; }
+.model-select-menu { position:fixed; width:320px; max-width:calc(100vw - 24px); max-height:min(380px, calc(100vh - 40px)); overflow-y:auto; overflow-x:hidden; background:var(--panel-solid); border:1px solid var(--line-strong); border-radius:10px; box-shadow:0 12px 34px rgba(0,0,0,0.45); padding:6px; z-index:1000; display:grid; gap:2px; overscroll-behavior:contain; }
+.model-select-menu * { min-width:0; }
+.model-menu-group { font-size:11px; color:var(--muted); padding:6px 8px 2px; text-transform:uppercase; letter-spacing:0.04em; }
+.studio-shell .model-menu-row { display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:6px; font-size:12px; color:var(--ink); cursor:pointer; }
+.studio-shell .model-menu-row:hover { background:var(--panel-high); }
+.studio-shell .model-menu-row.active { background:var(--green-dim); }
+.model-menu-row input[type="checkbox"] { accent-color:var(--green-strong); flex-shrink:0; }
+.model-menu-row span { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+/* A provider row carries a Verify action next to the model name, so the
+   name is its own label (click toggles the checkbox) and the button is a
+   sibling rather than a child of the label. The truncation has to live on
+   the label: the span inside it is an inline box, where overflow and
+   text-overflow do not apply, and the name would run under the button. */
+.studio-shell .model-menu-row .model-menu-text { flex:1; min-width:0; cursor:pointer; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.studio-shell .model-menu-row .model-menu-text span { display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+/* A model whose last verdict was a transient provider failure stays
+   selectable but is visually demoted: the health note names what happened
+   in the same words Settings uses, so the menu and Model Hub agree. */
+.studio-shell .model-menu-row.model-menu-degraded .model-menu-text span { color:var(--muted); }
+.studio-shell .model-menu-health { color:var(--muted); font-size:11px; white-space:nowrap; }
+.studio-shell .model-menu-row .model-menu-verify { flex-shrink:0; border:1px solid var(--line-strong); border-radius:6px; padding:2px 8px; background:var(--panel-high); color:var(--ink); font-size:11px; }
+.studio-shell .model-menu-row .model-menu-verify:hover:not(:disabled) { background:var(--green-dim); border-color:var(--green-strong); }
+.model-menu-row.model-menu-auto { display:grid; gap:2px; }
+.model-menu-row.model-menu-auto small { color:var(--muted); font-size:11px; }
+/* The menu is grouped by provider: the provider name is the heading, its
+   verified models are the checkable rows underneath it. */
+.model-menu-provider { display:grid; gap:1px; }
+.model-menu-provider-name { font-size:11px; color:var(--ink); font-weight:650; padding:6px 8px 2px; }
+.model-menu-pending { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:6px 8px; }
+.model-menu-pending small { color:var(--muted); font-size:11px; }
+
+/* 16A P6: truthful approval kind labeling */
+.approval-kind { font-size:11px; padding:2px 8px; border-radius:999px; border:1px solid var(--line-strong); color:var(--muted); white-space:nowrap; }
+.approval-kind.kind-security-network { color:#e0a94a; border-color:#e0a94a55; background:#e0a94a14; }
+.approval-kind.kind-security-permission { color:var(--green); border-color:var(--green-dim); background:var(--green-dim); }
+
+/* 19B1 D5: Default effort is a fixed, truthful state (runtime exposes exactly one level) */
+.studio-shell .effort-fixed { display:inline-flex; align-items:center; gap:5px; padding:6px 10px; border:1px solid var(--line); border-radius:6px; background:transparent; color:var(--muted); font-size:12px; white-space:nowrap; }
+
+/* 19B1 Amendment 4: sidebar navigation upgrade */
+.studio-shell .studio-primary-nav button[aria-expanded] { color:var(--muted); }
+.studio-shell .studio-primary-nav button.more-nav-active { background:var(--green-dim); color:var(--ink); }
+.studio-shell .section-disclosure { border:0; background:transparent; color:var(--muted); font-size:12px; padding:4px 8px; border-radius:6px; cursor:pointer; text-align:left; flex:1 1 auto; min-height:0; }
+.studio-shell .section-disclosure:hover { background:var(--panel-high); color:var(--ink); }
+.studio-shell .sidebar-show-more { border:0; background:transparent; color:var(--muted); font-size:12px; padding:6px 8px; border-radius:6px; cursor:pointer; text-align:left; width:100%; }
+.studio-shell .sidebar-show-more:hover { background:var(--panel-high); color:var(--ink); }
+.studio-shell .sidebar.collapsed-rail { grid-template-columns:0 minmax(0,1fr); }
+
+/* The inspector can be narrow even on a wide desktop viewport. */
+.inspector-body .approval-list { grid-template-columns: minmax(0,1fr); }
+.inspector-body .pending-chat-run { flex-wrap:wrap; background:var(--panel-high); }
+.inspector-body .pending-chat-run > div { min-width:0; flex:1 1 160px; }
+.inspector-body .pending-chat-run strong { color:var(--ink); }
+.inspector-body .pending-chat-run span { color:var(--muted); }
+.inspector-body .pending-chat-run button { flex-shrink:0; }
+.inspector-body .approval-card { min-width:0; background:var(--panel-high); color:var(--ink); overflow-wrap:anywhere; }
+.inspector-body .approval-card > p,.inspector-body .approval-card dt,.inspector-body .approval-card-heading time { color:var(--muted); }
+.inspector-body .approval-card-heading,.inspector-body .approval-card-heading > div,.inspector-body .approval-actions { min-width:0; flex-wrap:wrap; }
+.inspector-body .approval-kind { white-space:normal; }
+.inspector-body .approval-card dl div { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,2fr); gap:8px; }
+.inspector-body .approval-card dt,.inspector-body .approval-card dd { min-width:0; }
+.inspector-body .approval-card dd { max-width:none; color:var(--ink); }
+
+/* ------------------------------------------------------------------ 19C: interface polish
+   Composer empty state, single-row controls, sidebar hierarchy. */
+
+/* Centered empty state: the greeting and composer sit together in the middle
+   of the canvas, then the composer returns to a stable bottom position as soon
+   as the conversation has a user turn. */
+.studio-shell .chat-shell.empty-conversation { justify-content:center; }
+.studio-shell .chat-shell.empty-conversation .chat-transcript { flex:0 1 auto; max-height:44vh; display:flex; flex-direction:column; justify-content:flex-end; padding-bottom:4px; }
+.studio-shell .chat-shell.empty-conversation .chat-composer { margin-top:6px; margin-bottom:6px; }
+.studio-shell .chat-shell.empty-conversation .chat-message.chat-system { justify-content:center; text-align:center; }
+.studio-shell .chat-shell.empty-conversation .chat-message.chat-system > div > strong { display:none; }
+.studio-shell .chat-shell.empty-conversation .chat-message.chat-system p { font-size:15px; color:var(--muted); }
+
+/* Composer controls on one row: attachments/context on the left, model and run
+   on the right. Controls shrink before they wrap, so nothing is clipped at 1280. */
+.studio-shell .chat-composer-footer { flex-wrap:nowrap; align-items:center; gap:8px; }
+.studio-shell .chat-composer-tools { flex:0 1 auto; min-width:0; flex-wrap:nowrap; }
+.studio-shell .composer-execution { flex:0 1 auto; min-width:0; flex-wrap:nowrap; margin-left:auto; justify-content:flex-end; }
+.studio-shell .chat-composer-tools select { max-width:150px; }
+.studio-shell .composer-execution .model-select-button { max-width:220px; }
+@media (max-width:1180px) {
+  .studio-shell .chat-composer-tools select { max-width:112px; }
+  .studio-shell .composer-execution .model-select-button { max-width:160px; }}
+
+/* Sidebar: a stable hierarchy — compact fixed actions, then Projects, then Chats,
+   each scrolling independently so one long list cannot push another off-screen. */
+.sidebar { display:flex; flex-direction:column; min-height:0; overflow:hidden; }
+.studio-primary-nav { flex:none; }
+.sidebar-project-section,.conversation-section { display:flex; flex-direction:column; min-height:0; }
+.sidebar-project-list,.conversation-list { overflow-y:auto; min-height:0; }
+.sidebar-project-section { flex:0 1 auto; }
+.conversation-section { flex:1 1 auto; }
+.sidebar-footer { flex:none; }
+
+.new-chat-control { display:flex; align-items:center; gap:4px; }
+.new-chat-control > button:first-child { flex:1 1 auto; min-width:0; }
+.new-chat-control small { display:block; font-size:10px; color:var(--faint); font-weight:400; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+.sidebar-project-row { display:flex; align-items:center; gap:2px; }
+.sidebar-project-row .sidebar-project-open { flex:1 1 auto; min-width:0; }
+.sidebar-project-delete { flex:none; opacity:0; font-size:10px; padding:2px 6px; color:var(--muted); background:transparent; border:0; border-radius:6px; }
+.sidebar-project-row:hover .sidebar-project-delete,.sidebar-project-delete:focus-visible { opacity:1; }
+.sidebar-project-delete:hover { color:#ff8b8b; }
+
+/* Project chats are visibly nested beneath their project. */
+.conversation-row.nested { margin-left:16px; border-left:1px solid var(--line); padding-left:6px; }
+
+/* Command Centre: a persistent way out. */
+.command-centre-header { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+.command-centre-header h1 { margin:0; }
+.command-centre-header p { margin:4px 0 0; }
+
+/* Settings: five goal-oriented groups, each rendering its sections in place. */
+.settings-group-section + .settings-group-section { margin-top:20px; padding-top:16px; border-top:1px solid var(--line); }
+.settings-group-heading { margin:0 0 8px; font-size:13px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); }
+.settings-group-section > .settings-section:first-child > h2 { margin-top:0; }
+
+/* Citations: readable, associated with the text, no internal identifiers. */
+.markdown-message sup a[data-footnote-ref], .markdown-message a[data-footnote-ref] { display:inline-flex; align-items:center; justify-content:center; min-width:16px; height:16px; padding:0 4px; margin-left:2px; border-radius:5px; background:rgba(91,124,250,.16); color:var(--accent,#8fa6ff); font-size:10px; font-weight:600; text-decoration:none; vertical-align:super; line-height:1; }
+.markdown-message a[data-footnote-ref]:hover { background:rgba(91,124,250,.3); }
+.markdown-message section[data-footnotes], .markdown-message .footnotes { margin-top:14px; padding-top:10px; border-top:1px solid var(--line); font-size:12px; color:var(--muted); }
+.markdown-message section[data-footnotes] h2, .markdown-message .footnotes h2 { font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--faint); margin:0 0 6px; }
+.markdown-message section[data-footnotes] ol, .markdown-message .footnotes ol { margin:0; padding-left:18px; }
+.markdown-message section[data-footnotes] li, .markdown-message .footnotes li { margin-bottom:4px; }
+.markdown-message a[data-footnote-backref] { text-decoration:none; color:var(--faint); margin-left:4px; }
+
+/* Model-authored collapsible sections. Markdown body only — never HTML. */
+.md-details { margin:10px 0; border:1px solid var(--line); border-radius:10px; background:rgba(255,255,255,.02); padding:8px 12px; }
+.md-details > summary { cursor:pointer; font-size:13px; font-weight:550; color:var(--text); list-style:none; display:flex; align-items:center; gap:6px; }
+.md-details > summary::before { content:"▸"; color:var(--faint); font-size:11px; }
+.md-details[open] > summary::before { content:"▾"; }
+.md-details > summary::-webkit-details-marker { display:none; }
+.md-details > .markdown-message { margin-top:8px; }
+
+/* Governed browser: extracted page text. */
+.browser-page-text { max-height: 360px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11px; line-height: 1.55; background: rgba(0,0,0,.22); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.project-folder-path { color:var(--muted); font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:640px; }

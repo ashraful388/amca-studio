@@ -1,0 +1,32 @@
+{
+  "name": "amca-desktop",
+  "private": true,
+  "version": "1.1.21",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 1420 --strictPort",
+    "build": "tsc -b && vite build",
+    "test:frontend": "node --test tests/intelligencePanelModel.test.mjs tests/chatIntelligenceModel.test.mjs tests/modelHubModel.test.mjs tests/teamModel.test.mjs tests/workspaceDashboardModel.test.mjs tests/agentMonitorModel.test.mjs tests/modelHubRoutingCandidates.test.mjs tests/composerModel.test.mjs tests/composerModelHealth.test.mjs tests/composerModelMenu.test.mjs tests/agentTaskGrouping.test.mjs tests/modelHubCommercialModel.test.mjs tests/studioPolishModel.test.mjs tests/agentControlModel.test.mjs tests/collaborationInsightsModel.test.mjs tests/releasePolishModel.test.mjs tests/userExperienceModel.test.mjs tests/productivityModel.test.mjs tests/orchestrationUxModel.test.mjs tests/operationalIntelligenceModel.test.mjs tests/knowledgeUxModel.test.mjs tests/projectLifecycleModel.test.mjs tests/validationCenterModel.test.mjs tests/workspaceCommandModel.test.mjs tests/feedbackRefinementModel.test.mjs tests/consolidationUxModel.test.mjs tests/rcComplianceModel.test.mjs tests/feUxBatchModel.test.mjs tests/knowledgeIntelligenceModel.test.mjs tests/knowledgeContextModel.test.mjs tests/cognitiveWorkflowUxModel.test.mjs tests/cognitiveWorkflowInsightsModel.test.mjs tests/cognitiveWorkflowInteractionModel.test.mjs tests/cognitiveWorkflowUxConsolidationModel.test.mjs tests/crossModuleWorkflowContinuityModel.test.mjs tests/consentGovernanceUxModel.test.mjs tests/operationalWorkspaceIntelligenceModel.test.mjs tests/automationReadinessUxModel.test.mjs tests/projectCollaborationWorkspaceUxModel.test.mjs tests/reviewCenterWorkflowUxModel.test.mjs tests/workflowTemplateReuseUxModel.test.mjs tests/workspaceProductivityAssistanceUxModel.test.mjs tests/adaptiveWorkflowReadinessUxModel.test.mjs tests/intelligentDecisionTransparencyUxDesignModel.test.mjs tests/decisionEvidenceRegistryDesignModel.test.mjs tests/decisionTransparencyUxPreparationModel.test.mjs tests/endUserWorkflowValidationUx.test.mjs tests/modelHubManagementUxModel.test.mjs tests/chatRecoveryModel.test.mjs tests/outputModel.test.mjs tests/artifactPreviewModel.test.mjs tests/markdownBlocks.test.mjs tests/modelSettingsNavModel.test.mjs tests/chatLayoutCss.test.mjs tests/composerAttachmentsModel.test.mjs tests/studioFacilitiesModel.test.mjs",
+    "preview": "vite preview --host 127.0.0.1 --port 1420 --strictPort",
+    "tauri": "tauri",
+    "dev:tauri": "tauri dev --config src-tauri/tauri.conf.dev.json"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^2.11.1",
+    "katex": "^0.18.4",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-markdown": "^10.1.0",
+    "rehype-katex": "^7.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.11.4",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.0.5",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.1"
+  }
+}

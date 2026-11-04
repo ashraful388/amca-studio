@@ -1,0 +1,98 @@
+[
+ {
+  "label": "JOINT",
+  "mode": "joint",
+  "status": "succeeded",
+  "calls": 4,
+  "adapters": [
+   "ollama:dolphin-llama3:8b",
+   "ollama:qwen3:1.7b"
+  ]
+ },
+ {
+  "label": "INDEPENDENT_DISCUSS",
+  "mode": "independent_discuss",
+  "status": "succeeded",
+  "calls": 6,
+  "adapters": [
+   "ollama:dolphin-llama3:8b",
+   "ollama:qwen3:1.7b"
+  ]
+ },
+ {
+  "label": "PARALLEL-1",
+  "mode": "parallel",
+  "status": "succeeded",
+  "calls": 3,
+  "adapters": [
+   "ollama:dolphin-llama3:8b",
+   "ollama:qwen3:1.7b"
+  ]
+ },
+ {
+  "label": "PARALLEL-2",
+  "mode": "parallel",
+  "status": "succeeded",
+  "calls": 3,
+  "adapters": [
+   "ollama:dolphin-llama3:8b",
+   "ollama:qwen3:1.7b"
+  ]
+ },
+ {
+  "label": "PARALLEL-3",
+  "mode": "parallel",
+  "status": "succeeded",
+  "calls": 3,
+  "adapters": [
+   "ollama:dolphin-llama3:8b",
+   "ollama:qwen3:1.7b"
+  ]
+ },
+ {
+  "label": "ADAPTIVE-1",
+  "mode": "adaptive_hybrid",
+  "status": "succeeded",
+  "calls": 1,
+  "adapters": [
+   "ollama:qwen3:1.7b"
+  ]
+ },
+ {
+  "label": "ADAPTIVE-2",
+  "mode": "adaptive_hybrid",
+  "status": "succeeded",
+  "calls": 3,
+  "adapters": [
+   "ollama:dolphin-llama3:8b",
+   "ollama:qwen3:1.7b"
+  ]
+ },
+ {
+  "label": "ADAPTIVE-3",
+  "mode": "adaptive_hybrid",
+  "status": "succeeded",
+  "calls": 7,
+  "adapters": [
+   "ollama:dolphin-llama3:8b",
+   "ollama:qwen3:1.7b"
+  ]
+ },
+ {
+  "label": "ESCALATION-TRACE",
+  "modes": [
+   [
+    "solo",
+    "solo"
+   ],
+   [
+    "solo",
+    "independent_discuss"
+   ],
+   [
+    null,
+    null
+   ]
+  ]
+ }
+]

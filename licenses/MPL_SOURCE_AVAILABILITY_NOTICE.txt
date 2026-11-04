@@ -1,0 +1,42 @@
+AMCA STUDIO — MOZILLA PUBLIC LICENSE (MPL 2.0) SOURCE AVAILABILITY NOTICE
+=============================================================================
+
+This notice is provided in accordance with Section 3.1 and 3.2 of the
+Mozilla Public License Version 2.0 (MPL-2.0).
+
+1. COVERED COMPONENT IDENTIFICATION:
+   - Component Name:    certifi
+   - Distributed Ver:   2026.7.22
+   - Ecosystem:         Python / PyInstaller Bundled Dependency
+   - License:           Mozilla Public License Version 2.0 (MPL-2.0)
+
+2. MODIFICATION STATUS:
+   - Modified by AMCA:  NO
+   AMCA Studio distributes an unmodified, official binary/bytecode package of
+   the upstream 'certifi' project as packaged from the Python Package Index (PyPI).
+   Zero files belonging to 'certifi' have been altered, patched, or modified.
+
+3. SOURCE CODE FORM AVAILABILITY:
+   In accordance with MPL 2.0 §3.2, recipients of the executable form of AMCA
+   Studio are hereby notified that the Source Code Form of the covered software
+   (certifi 2026.7.22) is publicly available at no charge from the official
+   upstream repository:
+     https://github.com/certifi/python-certifi
+   
+   The exact release source archive corresponding to version 2026.7.22 can be
+   obtained directly from GitHub releases or PyPI:
+     https://pypi.org/project/certifi/2026.7.22/#files
+
+4. NATURE OF DISTRIBUTION & LARGER WORK:
+   AMCA Studio incorporates 'certifi' as an independent runtime dependency.
+   In accordance with MPL 2.0 §3.3 ("Distribution of a Larger Work"), the
+   larger work (AMCA Studio application and proprietary engine) is distributed
+   under its own commercial terms and does not fall under or become subject
+   to the Mozilla Public License.
+
+5. WRITTEN OFFER DETERMINATION:
+   Under MPL-2.0 §3.2, when covered software is distributed in executable form,
+   informing recipients of the public electronic mechanism where the source code
+   is available at no charge satisfies the source code availability requirement.
+   No physical media or formal written offer is required.
+=============================================================================

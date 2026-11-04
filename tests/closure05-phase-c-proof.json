@@ -1,0 +1,32 @@
+{
+  "phase": "CLOSURE-05 Phase C",
+  "passed": 5,
+  "total": 5,
+  "results": [
+    {
+      "id": "C1-server-up",
+      "ok": true,
+      "detail": "http://127.0.0.1:8931/test.html status=200 bytes=194"
+    },
+    {
+      "id": "C5-nonloopback-refused",
+      "ok": true,
+      "detail": "https://example.com refused"
+    },
+    {
+      "id": "C2-open-real-browser",
+      "ok": true,
+      "detail": "pid=31168 visible-to-tasklist=True"
+    },
+    {
+      "id": "C3-dom-captured",
+      "ok": true,
+      "detail": "status=completed dom_bytes=200 marker_in_preview=True"
+    },
+    {
+      "id": "C4-close-session",
+      "ok": true,
+      "detail": "closed status=closed second-open-refused=True"
+    }
+  ]
+}

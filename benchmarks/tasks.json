@@ -1,0 +1,1126 @@
+{
+  "schema_version": "1.0.0",
+  "suite_id": "amca-phase0-core-v1",
+  "title": "AMCA Phase 0 Cross-Domain Benchmark",
+  "description": "Eight original, self-contained tasks for exercising structured conclusions, evidence, verification, disagreement handling, and goal-based evaluation.",
+  "content_origin": "Original benchmark content created for this repository; no long copyrighted source text is included.",
+  "task_count": 8,
+  "domains": [
+    "mathematics",
+    "scientific_reasoning",
+    "coding",
+    "research_planning"
+  ],
+  "evaluation_policy": {
+    "task_max_score": 100,
+    "required_criterion_failure_score_cap": 59,
+    "numeric_comparison": "Use the criterion-specific absolute or relative tolerance.",
+    "rubric_comparison": "Record criterion-level evidence and a pass/fail result; do not emit only an opaque holistic score.",
+    "code_execution": "Run submitted code in a network-disabled sandbox with time and memory limits.",
+    "epistemic_rule": "Model count is not an evaluation signal. Score the submitted result against criteria and evidence.",
+    "reasoning_boundary": "Evaluate conclusions, concise rationale, evidence, assumptions, tests, and artifacts. Hidden chain-of-thought is neither requested nor scored."
+  },
+  "tasks": [
+    {
+      "task_id": "math-crt-001",
+      "version": 1,
+      "domain": "mathematics",
+      "title": "Four-modulus reconstruction",
+      "difficulty": "hard",
+      "prompt": "Find the least nonnegative integer n satisfying all four congruences: n mod 7 = 2, n mod 11 = 3, n mod 13 = 5, and n mod 17 = 7. Prove that your answer is unique modulo the product of the moduli. Return a structured answer containing answer, modulus, residue_verification, and proof_summary.",
+      "allowed_tools": [
+        "calculator",
+        "python",
+        "sympy"
+      ],
+      "response_contract": {
+        "type": "object",
+        "required": [
+          "answer",
+          "modulus",
+          "residue_verification",
+          "proof_summary"
+        ]
+      },
+      "reference": {
+        "answer": 13148,
+        "modulus": 17017,
+        "residues": {
+          "7": 2,
+          "11": 3,
+          "13": 5,
+          "17": 7
+        }
+      },
+      "criteria": [
+        {
+          "criterion_id": "answer",
+          "kind": "json_path_exact",
+          "path": "$.answer",
+          "expected": 13148,
+          "required": true,
+          "weight": 30
+        },
+        {
+          "criterion_id": "modulus",
+          "kind": "json_path_exact",
+          "path": "$.modulus",
+          "expected": 17017,
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "residue_check",
+          "kind": "residue_vector",
+          "value_path": "$.answer",
+          "expected": [
+            {
+              "modulus": 7,
+              "residue": 2
+            },
+            {
+              "modulus": 11,
+              "residue": 3
+            },
+            {
+              "modulus": 13,
+              "residue": 5
+            },
+            {
+              "modulus": 17,
+              "residue": 7
+            }
+          ],
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "uniqueness_proof",
+          "kind": "rubric_predicate",
+          "path": "$.proof_summary",
+          "must_establish": [
+            "the four moduli are pairwise coprime",
+            "the Chinese Remainder Theorem applies",
+            "all solutions are congruent modulo 17017"
+          ],
+          "required": true,
+          "weight": 30
+        }
+      ],
+      "tags": [
+        "exact",
+        "proof",
+        "verification"
+      ]
+    },
+    {
+      "task_id": "math-pattern-wait-002",
+      "version": 1,
+      "domain": "mathematics",
+      "title": "Waiting time for a biased-coin pattern",
+      "difficulty": "hard",
+      "prompt": "A coin produces H with probability 2/3 and T with probability 1/3, independently on each toss. Starting before any tosses, stop the first time the consecutive pattern HTH appears. Compute the expected number of tosses. Derive the result using states equal to the longest current suffix that is also a prefix of HTH. Return expected_tosses, exact_fraction, transitions, state_equations, and conclusion.",
+      "allowed_tools": [
+        "calculator",
+        "python",
+        "sympy"
+      ],
+      "response_contract": {
+        "type": "object",
+        "required": [
+          "expected_tosses",
+          "exact_fraction",
+          "transitions",
+          "state_equations",
+          "conclusion"
+        ]
+      },
+      "reference": {
+        "expected_tosses": 8.25,
+        "exact_fraction": "33/4",
+        "states": [
+          "empty",
+          "H",
+          "HT",
+          "done"
+        ],
+        "transitions": {
+          "empty": {
+            "H": "H",
+            "T": "empty"
+          },
+          "H": {
+            "H": "H",
+            "T": "HT"
+          },
+          "HT": {
+            "H": "done",
+            "T": "empty"
+          }
+        }
+      },
+      "criteria": [
+        {
+          "criterion_id": "numeric_expectation",
+          "kind": "json_path_numeric",
+          "path": "$.expected_tosses",
+          "expected": 8.25,
+          "absolute_tolerance": 1e-09,
+          "required": true,
+          "weight": 35
+        },
+        {
+          "criterion_id": "exact_expectation",
+          "kind": "json_path_exact",
+          "path": "$.exact_fraction",
+          "expected": "33/4",
+          "required": true,
+          "weight": 15
+        },
+        {
+          "criterion_id": "automaton",
+          "kind": "transition_map_equivalent",
+          "path": "$.transitions",
+          "expected_reference_path": "$.reference.transitions",
+          "required": true,
+          "weight": 25
+        },
+        {
+          "criterion_id": "equation_derivation",
+          "kind": "rubric_predicate",
+          "path": "$.state_equations",
+          "must_establish": [
+            "one first-step expectation equation for each nonterminal state",
+            "self-overlap after H followed by H returns to state H",
+            "solving the equations gives 33/4 from the empty state"
+          ],
+          "required": true,
+          "weight": 25
+        }
+      ],
+      "tags": [
+        "probability",
+        "markov-state",
+        "exact"
+      ]
+    },
+    {
+      "task_id": "science-model-selection-001",
+      "version": 1,
+      "domain": "scientific_reasoning",
+      "title": "Discriminate two quantitative hypotheses",
+      "difficulty": "hard",
+      "prompt": "A laboratory measures y at x = 10, 20, 30 and obtains [5.2, 6.8, 8.9]. Each measurement has known independent Gaussian standard deviation 0.2. Hypothesis H1 predicts [5.0, 7.0, 9.0]; H2 predicts [6.0, 6.5, 8.0]. No parameters were fitted to these three values and the hypotheses have equal prior odds. Compute chi-square for each hypothesis and the likelihood ratio L(H1)/L(H2). Then select one next measurement from the candidates: x=40 gives H1=11.0, H2=10.5, sigma=0.2; x=50 gives H1=13.0, H2=10.0, sigma=0.5; x=60 gives H1=15.0, H2=12.0, sigma=0.3. Choose the candidate with largest predicted standardized separation. Return chi_square, likelihood_ratio_h1_over_h2, preferred_hypothesis, next_measurement_x, and assumptions.",
+      "allowed_tools": [
+        "calculator",
+        "python"
+      ],
+      "response_contract": {
+        "type": "object",
+        "required": [
+          "chi_square",
+          "likelihood_ratio_h1_over_h2",
+          "preferred_hypothesis",
+          "next_measurement_x",
+          "assumptions"
+        ]
+      },
+      "reference": {
+        "chi_square": {
+          "H1": 2.25,
+          "H2": 38.5
+        },
+        "likelihood_ratio_h1_over_h2": 74402492.4563816,
+        "preferred_hypothesis": "H1",
+        "standardized_candidate_separation": {
+          "40": 2.5,
+          "50": 6.0,
+          "60": 10.0
+        },
+        "next_measurement_x": 60
+      },
+      "criteria": [
+        {
+          "criterion_id": "chi_square_h1",
+          "kind": "json_path_numeric",
+          "path": "$.chi_square.H1",
+          "expected": 2.25,
+          "absolute_tolerance": 1e-09,
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "chi_square_h2",
+          "kind": "json_path_numeric",
+          "path": "$.chi_square.H2",
+          "expected": 38.5,
+          "absolute_tolerance": 1e-09,
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "likelihood_ratio",
+          "kind": "json_path_numeric",
+          "path": "$.likelihood_ratio_h1_over_h2",
+          "expected": 74402492.4563816,
+          "relative_tolerance": 0.005,
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "selection",
+          "kind": "json_paths_exact",
+          "expected": {
+            "$.preferred_hypothesis": "H1",
+            "$.next_measurement_x": 60
+          },
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "assumption_boundary",
+          "kind": "rubric_predicate",
+          "path": "$.assumptions",
+          "must_include": [
+            "independent measurement errors",
+            "Gaussian errors with the stated standard deviations",
+            "equal prior odds",
+            "predictions fixed without fitting these observations"
+          ],
+          "required": true,
+          "weight": 20
+        }
+      ],
+      "tags": [
+        "hypothesis-test",
+        "experimental-design",
+        "evidence"
+      ]
+    },
+    {
+      "task_id": "science-factorial-002",
+      "version": 1,
+      "domain": "scientific_reasoning",
+      "title": "Interpret a randomized factorial experiment",
+      "difficulty": "hard",
+      "prompt": "A randomized 2 by 2 greenhouse experiment has eight replicate pots per cell. The mean biomass values are: low light without fertilizer=10, low light with fertilizer=14, high light without fertilizer=18, and high light with fertilizer=30. Compute the fertilizer main effect averaged over light, the light main effect averaged over fertilizer, and the fertilizer-by-light difference-in-differences interaction. Explain what can be interpreted causally from the randomized design, what cannot be inferred from cell means alone, and propose a blocked follow-up experiment that distinguishes biological synergy from a measurement ceiling. Return numeric_effects, interaction_direction, causal_interpretation, limitations, and followup_design.",
+      "allowed_tools": [
+        "calculator",
+        "python"
+      ],
+      "response_contract": {
+        "type": "object",
+        "required": [
+          "numeric_effects",
+          "interaction_direction",
+          "causal_interpretation",
+          "limitations",
+          "followup_design"
+        ]
+      },
+      "reference": {
+        "fertilizer_main_effect": 8.0,
+        "light_main_effect": 12.0,
+        "interaction_difference_in_differences": 8.0,
+        "interaction_direction": "positive"
+      },
+      "criteria": [
+        {
+          "criterion_id": "fertilizer_effect",
+          "kind": "json_path_numeric",
+          "path": "$.numeric_effects.fertilizer_main_effect",
+          "expected": 8.0,
+          "absolute_tolerance": 1e-09,
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "light_effect",
+          "kind": "json_path_numeric",
+          "path": "$.numeric_effects.light_main_effect",
+          "expected": 12.0,
+          "absolute_tolerance": 1e-09,
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "interaction",
+          "kind": "json_paths_exact_or_numeric",
+          "expected": {
+            "$.numeric_effects.interaction_difference_in_differences": 8.0,
+            "$.interaction_direction": "positive"
+          },
+          "absolute_tolerance": 1e-09,
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "causal_scope",
+          "kind": "rubric_predicate",
+          "paths": [
+            "$.causal_interpretation",
+            "$.limitations"
+          ],
+          "must_establish": [
+            "random assignment supports causal effects for the tested population and settings",
+            "cell means alone do not provide uncertainty or a significance test",
+            "interaction does not by itself identify a biological mechanism",
+            "generalization beyond tested levels requires new evidence"
+          ],
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "followup_quality",
+          "kind": "rubric_predicate",
+          "path": "$.followup_design",
+          "must_include": [
+            "randomization",
+            "blocking",
+            "multiple light and fertilizer levels",
+            "an independent measurement with a wider dynamic range",
+            "replication",
+            "a preregistered interaction analysis"
+          ],
+          "required": true,
+          "weight": 20
+        }
+      ],
+      "tags": [
+        "factorial-design",
+        "causality",
+        "interaction"
+      ]
+    },
+    {
+      "task_id": "coding-dag-001",
+      "version": 1,
+      "domain": "coding",
+      "title": "Deterministic critical-path analysis",
+      "difficulty": "hard",
+      "prompt": "Implement a pure Python function analyze_dag(durations, dependencies). durations maps unique string task ids to nonnegative integer durations. dependencies is a list of [predecessor, successor] pairs. Return a dictionary with topological_order, earliest_start, earliest_finish, makespan, and critical_path. Use Kahn's algorithm with lexicographically smallest available id first. A task's earliest start is the maximum earliest finish of its predecessors, or zero. critical_path is the lexicographically smallest complete predecessor chain ending at makespan among equal-duration critical paths. Reject an unknown dependency endpoint and reject a cycle. Do not use third-party packages.",
+      "allowed_tools": [
+        "python_standard_library"
+      ],
+      "response_contract": {
+        "kind": "python_function",
+        "entrypoint": "analyze_dag",
+        "signature": "analyze_dag(durations: dict[str, int], dependencies: list[list[str]]) -> dict",
+        "network": false,
+        "third_party_packages": false
+      },
+      "evaluator": {
+        "kind": "python_tests",
+        "timeout_seconds": 5,
+        "cases": [
+          {
+            "name": "coupled_graph",
+            "args": {
+              "durations": {
+                "A": 3,
+                "B": 2,
+                "C": 4,
+                "D": 2,
+                "E": 1
+              },
+              "dependencies": [
+                [
+                  "A",
+                  "C"
+                ],
+                [
+                  "B",
+                  "C"
+                ],
+                [
+                  "C",
+                  "D"
+                ],
+                [
+                  "B",
+                  "E"
+                ],
+                [
+                  "E",
+                  "D"
+                ]
+              ]
+            },
+            "expected": {
+              "topological_order": [
+                "A",
+                "B",
+                "C",
+                "E",
+                "D"
+              ],
+              "earliest_start": {
+                "A": 0,
+                "B": 0,
+                "C": 3,
+                "D": 7,
+                "E": 2
+              },
+              "earliest_finish": {
+                "A": 3,
+                "B": 2,
+                "C": 7,
+                "D": 9,
+                "E": 3
+              },
+              "makespan": 9,
+              "critical_path": [
+                "A",
+                "C",
+                "D"
+              ]
+            }
+          },
+          {
+            "name": "critical_path_tie",
+            "args": {
+              "durations": {
+                "A": 2,
+                "B": 2,
+                "C": 1
+              },
+              "dependencies": [
+                [
+                  "A",
+                  "C"
+                ],
+                [
+                  "B",
+                  "C"
+                ]
+              ]
+            },
+            "expected": {
+              "topological_order": [
+                "A",
+                "B",
+                "C"
+              ],
+              "earliest_start": {
+                "A": 0,
+                "B": 0,
+                "C": 2
+              },
+              "earliest_finish": {
+                "A": 2,
+                "B": 2,
+                "C": 3
+              },
+              "makespan": 3,
+              "critical_path": [
+                "A",
+                "C"
+              ]
+            }
+          },
+          {
+            "name": "empty",
+            "args": {
+              "durations": {},
+              "dependencies": []
+            },
+            "expected": {
+              "topological_order": [],
+              "earliest_start": {},
+              "earliest_finish": {},
+              "makespan": 0,
+              "critical_path": []
+            }
+          },
+          {
+            "name": "cycle",
+            "args": {
+              "durations": {
+                "A": 1,
+                "B": 1
+              },
+              "dependencies": [
+                [
+                  "A",
+                  "B"
+                ],
+                [
+                  "B",
+                  "A"
+                ]
+              ]
+            },
+            "expected_exception": "ValueError"
+          },
+          {
+            "name": "unknown_endpoint",
+            "args": {
+              "durations": {
+                "A": 1
+              },
+              "dependencies": [
+                [
+                  "A",
+                  "Z"
+                ]
+              ]
+            },
+            "expected_exception_any": [
+              "KeyError",
+              "ValueError"
+            ]
+          }
+        ]
+      },
+      "criteria": [
+        {
+          "criterion_id": "functional_cases",
+          "kind": "python_test_group",
+          "case_names": [
+            "coupled_graph",
+            "critical_path_tie",
+            "empty"
+          ],
+          "required": true,
+          "weight": 65
+        },
+        {
+          "criterion_id": "validation_cases",
+          "kind": "python_test_group",
+          "case_names": [
+            "cycle",
+            "unknown_endpoint"
+          ],
+          "required": true,
+          "weight": 15
+        },
+        {
+          "criterion_id": "complexity",
+          "kind": "code_rubric",
+          "must_establish": [
+            "topological processing is O((V + E) log V) or better apart from output construction",
+            "no enumeration of all topological orders or all source-to-sink paths"
+          ],
+          "required": true,
+          "weight": 10
+        },
+        {
+          "criterion_id": "code_quality",
+          "kind": "code_rubric",
+          "must_include": [
+            "deterministic tie handling",
+            "input validation",
+            "no mutation of caller inputs"
+          ],
+          "required": false,
+          "weight": 10
+        }
+      ],
+      "tags": [
+        "algorithm",
+        "dag",
+        "determinism"
+      ]
+    },
+    {
+      "task_id": "coding-coupon-path-002",
+      "version": 1,
+      "domain": "coding",
+      "title": "Shortest directed path with one discount",
+      "difficulty": "hard",
+      "prompt": "Implement a pure Python function shortest_path_with_coupon(graph, source, target). graph maps every string node id to a list of [neighbor, positive_integer_weight] directed edges. A coupon may be used on at most one traversed edge, changing its cost from w to floor(w/2). Return null if target is unreachable; otherwise return cost, path, and coupon_edge, where coupon_edge is [u,v] or null. Optimize by minimum cost, then lexicographically smallest node-id path, then prefer no coupon, then lexicographically smallest coupon edge. Reject non-positive weights. Do not enumerate paths and do not use third-party packages.",
+      "allowed_tools": [
+        "python_standard_library"
+      ],
+      "response_contract": {
+        "kind": "python_function",
+        "entrypoint": "shortest_path_with_coupon",
+        "signature": "shortest_path_with_coupon(graph: dict[str, list[list]], source: str, target: str) -> dict | None",
+        "network": false,
+        "third_party_packages": false
+      },
+      "evaluator": {
+        "kind": "python_tests",
+        "timeout_seconds": 5,
+        "cases": [
+          {
+            "name": "coupon_inside_best_path",
+            "args": {
+              "graph": {
+                "A": [
+                  [
+                    "B",
+                    10
+                  ],
+                  [
+                    "C",
+                    5
+                  ]
+                ],
+                "B": [
+                  [
+                    "D",
+                    1
+                  ]
+                ],
+                "C": [
+                  [
+                    "B",
+                    2
+                  ],
+                  [
+                    "D",
+                    20
+                  ]
+                ],
+                "D": []
+              },
+              "source": "A",
+              "target": "D"
+            },
+            "expected": {
+              "cost": 5,
+              "path": [
+                "A",
+                "C",
+                "B",
+                "D"
+              ],
+              "coupon_edge": [
+                "A",
+                "C"
+              ]
+            }
+          },
+          {
+            "name": "direct_coupon",
+            "args": {
+              "graph": {
+                "S": [
+                  [
+                    "T",
+                    5
+                  ],
+                  [
+                    "A",
+                    2
+                  ]
+                ],
+                "A": [
+                  [
+                    "T",
+                    2
+                  ]
+                ],
+                "T": []
+              },
+              "source": "S",
+              "target": "T"
+            },
+            "expected": {
+              "cost": 2,
+              "path": [
+                "S",
+                "T"
+              ],
+              "coupon_edge": [
+                "S",
+                "T"
+              ]
+            }
+          },
+          {
+            "name": "source_is_target",
+            "args": {
+              "graph": {
+                "S": [
+                  [
+                    "A",
+                    2
+                  ]
+                ],
+                "A": []
+              },
+              "source": "S",
+              "target": "S"
+            },
+            "expected": {
+              "cost": 0,
+              "path": [
+                "S"
+              ],
+              "coupon_edge": null
+            }
+          },
+          {
+            "name": "unreachable",
+            "args": {
+              "graph": {
+                "A": [],
+                "B": []
+              },
+              "source": "A",
+              "target": "B"
+            },
+            "expected": null
+          },
+          {
+            "name": "nonpositive_weight",
+            "args": {
+              "graph": {
+                "A": [
+                  [
+                    "B",
+                    0
+                  ]
+                ],
+                "B": []
+              },
+              "source": "A",
+              "target": "B"
+            },
+            "expected_exception": "ValueError"
+          }
+        ]
+      },
+      "criteria": [
+        {
+          "criterion_id": "functional_cases",
+          "kind": "python_test_group",
+          "case_names": [
+            "coupon_inside_best_path",
+            "direct_coupon",
+            "source_is_target",
+            "unreachable"
+          ],
+          "required": true,
+          "weight": 70
+        },
+        {
+          "criterion_id": "validation_case",
+          "kind": "python_test_group",
+          "case_names": [
+            "nonpositive_weight"
+          ],
+          "required": true,
+          "weight": 10
+        },
+        {
+          "criterion_id": "algorithm",
+          "kind": "code_rubric",
+          "must_establish": [
+            "uses a two-state shortest-path formulation for coupon unused or used",
+            "does not enumerate all paths",
+            "handles stale priority-queue entries safely"
+          ],
+          "required": true,
+          "weight": 15
+        },
+        {
+          "criterion_id": "code_quality",
+          "kind": "code_rubric",
+          "must_include": [
+            "deterministic tie handling",
+            "no mutation of caller inputs"
+          ],
+          "required": false,
+          "weight": 5
+        }
+      ],
+      "tags": [
+        "algorithm",
+        "shortest-path",
+        "state-expansion"
+      ]
+    },
+    {
+      "task_id": "research-amca-pilot-001",
+      "version": 1,
+      "domain": "research_planning",
+      "title": "Preregister a collaboration-system comparison",
+      "difficulty": "hard",
+      "prompt": "Design a preregistered pilot comparing four systems on exactly 120 original tasks: 30 mathematics, 30 scientific reasoning, 30 coding, and 30 research planning. Every task runs in all four conditions: solo (maximum 1 model call per task), independent_aggregate (maximum 4), static_joint (maximum 3), and adaptive_cost_aware (maximum 4), for a total ceiling of 1440 model calls. Use the same eligible model pool, the same per-task token ceiling, and blinded criterion-level outcome evaluation. Correctness or required-rubric pass is primary; API cost, local-compute burden, latency, goal completion, and failure rate are secondary. Prevent benchmark leakage into router tuning. Return valid JSON with task_allocation, conditions, randomization, controls, outcomes, analysis, stopping_rule, reproducibility, leakage_controls, and limitations. Do not invent results.",
+      "allowed_tools": [
+        "calculator"
+      ],
+      "response_contract": {
+        "type": "object",
+        "required": [
+          "task_allocation",
+          "conditions",
+          "randomization",
+          "controls",
+          "outcomes",
+          "analysis",
+          "stopping_rule",
+          "reproducibility",
+          "leakage_controls",
+          "limitations"
+        ]
+      },
+      "reference_constraints": {
+        "task_total": 120,
+        "task_allocation": {
+          "mathematics": 30,
+          "scientific_reasoning": 30,
+          "coding": 30,
+          "research_planning": 30
+        },
+        "condition_call_caps": {
+          "solo": 1,
+          "independent_aggregate": 4,
+          "static_joint": 3,
+          "adaptive_cost_aware": 4
+        },
+        "maximum_model_calls": 1440
+      },
+      "criteria": [
+        {
+          "criterion_id": "allocation_and_budget",
+          "kind": "structured_constraints",
+          "path": "$.task_allocation",
+          "must_equal": {
+            "mathematics": 30,
+            "scientific_reasoning": 30,
+            "coding": 30,
+            "research_planning": 30
+          },
+          "global_numeric_constraints": [
+            {
+              "description": "planned maximum model calls",
+              "operator": "<=",
+              "value": 1440
+            }
+          ],
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "condition_fidelity",
+          "kind": "rubric_predicate",
+          "path": "$.conditions",
+          "must_include_named_items": [
+            "solo",
+            "independent_aggregate",
+            "static_joint",
+            "adaptive_cost_aware"
+          ],
+          "must_establish": [
+            "each task is evaluated in every condition",
+            "condition-specific call caps are enforced",
+            "eligible model pool and per-task token ceiling are controlled",
+            "model and prompt versions are pinned"
+          ],
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "outcomes",
+          "kind": "rubric_predicate",
+          "path": "$.outcomes",
+          "must_establish": [
+            "blinded criterion-level correctness or required-rubric pass is the primary outcome",
+            "API cost is reported separately from local-compute burden",
+            "latency, goal completion, and failure rate are secondary outcomes",
+            "evaluator disagreement has a predefined resolution procedure"
+          ],
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "analysis",
+          "kind": "rubric_predicate",
+          "path": "$.analysis",
+          "must_include": [
+            "paired task-level comparison",
+            "task-domain stratification or adjustment",
+            "confidence intervals",
+            "multiple-comparison control",
+            "missing and failed run handling",
+            "effect sizes in addition to significance tests"
+          ],
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "integrity_and_reproducibility",
+          "kind": "rubric_predicate",
+          "paths": [
+            "$.randomization",
+            "$.stopping_rule",
+            "$.reproducibility",
+            "$.leakage_controls",
+            "$.limitations"
+          ],
+          "must_include": [
+            "randomized or counterbalanced run order",
+            "stopping fixed before observing condition results",
+            "seeds and run manifests",
+            "benchmark tasks excluded from router tuning",
+            "no claim of broad superiority from this pilot alone"
+          ],
+          "required": true,
+          "weight": 20
+        }
+      ],
+      "tags": [
+        "preregistration",
+        "paired-design",
+        "benchmark-integrity"
+      ]
+    },
+    {
+      "task_id": "research-sensor-validation-002",
+      "version": 1,
+      "domain": "research_planning",
+      "title": "Plan a constrained sensor validation study",
+      "difficulty": "hard",
+      "prompt": "Create a six-week validation plan for a new low-cost water-quality sensor. Resources are at most 60 sensor units and 25000 USD. Test three matrices (tap, river, saline) at 10, 25, and 40 degrees C against a calibrated reference instrument. Calibration and held-out validation must be split by independent source batch, not random rows from the same batch. Include blinded sample labels, interferent challenges, repeatability, between-unit variation, one-week drift, missing/failure handling, and safety. Predeclare pass thresholds: absolute bias no more than 5 percent of full scale, RMSE no more than 8 percent, drift no more than 2 percent per week, and valid-reading rate at least 95 percent. Return valid JSON with objectives, sensor_allocation, experimental_matrix, calibration_validation_split, blinding, schedule, budget, analysis, acceptance_rule, failure_handling, safety, and risks. The allocation must use no more than 60 units, budget must total no more than 25000 USD, and no results may be invented.",
+      "allowed_tools": [
+        "calculator"
+      ],
+      "response_contract": {
+        "type": "object",
+        "required": [
+          "objectives",
+          "sensor_allocation",
+          "experimental_matrix",
+          "calibration_validation_split",
+          "blinding",
+          "schedule",
+          "budget",
+          "analysis",
+          "acceptance_rule",
+          "failure_handling",
+          "safety",
+          "risks"
+        ]
+      },
+      "reference_constraints": {
+        "maximum_sensor_units": 60,
+        "maximum_budget_usd": 25000,
+        "duration_weeks": 6,
+        "matrices": [
+          "tap",
+          "river",
+          "saline"
+        ],
+        "temperatures_c": [
+          10,
+          25,
+          40
+        ],
+        "thresholds": {
+          "absolute_bias_percent_full_scale_max": 5,
+          "rmse_percent_full_scale_max": 8,
+          "drift_percent_full_scale_per_week_max": 2,
+          "valid_reading_rate_percent_min": 95
+        }
+      },
+      "criteria": [
+        {
+          "criterion_id": "resource_limits",
+          "kind": "structured_sum_constraints",
+          "constraints": [
+            {
+              "path": "$.sensor_allocation",
+              "sum_numeric_leaf_values": true,
+              "operator": "<=",
+              "value": 60,
+              "unit": "sensor_units"
+            },
+            {
+              "path": "$.budget",
+              "sum_cost_line_items": true,
+              "operator": "<=",
+              "value": 25000,
+              "unit": "USD"
+            }
+          ],
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "factor_coverage",
+          "kind": "cross_product_coverage",
+          "path": "$.experimental_matrix",
+          "factors": {
+            "matrix": [
+              "tap",
+              "river",
+              "saline"
+            ],
+            "temperature_c": [
+              10,
+              25,
+              40
+            ]
+          },
+          "must_also_include": [
+            "reference-instrument paired measurements",
+            "interferent challenges",
+            "repeatability",
+            "between-unit variation",
+            "one-week drift"
+          ],
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "leakage_and_blinding",
+          "kind": "rubric_predicate",
+          "paths": [
+            "$.calibration_validation_split",
+            "$.blinding"
+          ],
+          "must_establish": [
+            "calibration and held-out validation use independent source batches",
+            "sample labels are blinded during measurement and primary analysis",
+            "validation data are not used to refit calibration"
+          ],
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "acceptance_thresholds",
+          "kind": "threshold_set",
+          "path": "$.acceptance_rule",
+          "required_thresholds": {
+            "absolute_bias_percent_full_scale_max": 5,
+            "rmse_percent_full_scale_max": 8,
+            "drift_percent_full_scale_per_week_max": 2,
+            "valid_reading_rate_percent_min": 95
+          },
+          "must_require_all": true,
+          "required": true,
+          "weight": 20
+        },
+        {
+          "criterion_id": "operational_quality",
+          "kind": "rubric_predicate",
+          "paths": [
+            "$.schedule",
+            "$.analysis",
+            "$.failure_handling",
+            "$.safety",
+            "$.risks"
+          ],
+          "must_include": [
+            "six-week schedule with decision gates",
+            "uncertainty intervals and matrix-by-temperature effects",
+            "predefined missing and failed-unit handling",
+            "chain of custody and appropriate water-sample handling",
+            "contingency without inventing or replacing unfavorable results"
+          ],
+          "required": true,
+          "weight": 20
+        }
+      ],
+      "tags": [
+        "validation",
+        "resource-constraint",
+        "leakage-control"
+      ]
+    }
+  ]
+}

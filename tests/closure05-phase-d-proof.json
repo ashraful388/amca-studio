@@ -1,0 +1,42 @@
+{
+  "phase": "CLOSURE-05 Phase D",
+  "passed": 7,
+  "total": 7,
+  "results": [
+    {
+      "id": "D0-real-files-on-disk",
+      "ok": true,
+      "detail": "['evidence.pdf', 'notes.txt', 'one-pixel.png', 'report.docx'] in C:\\Users\\MD8327~1.ASH\\AppData\\Local\\Temp\\closure05-phase-d-iy6abmrw\\attachments"
+    },
+    {
+      "id": "D1-txt",
+      "ok": true,
+      "detail": "media=text/plain chunks=1 locator=lines:1-4"
+    },
+    {
+      "id": "D2-pdf",
+      "ok": true,
+      "detail": "media=application/pdf chunks=1 locators=['page:1']"
+    },
+    {
+      "id": "D3-png",
+      "ok": true,
+      "detail": "media=image/png dims=['1', '1']"
+    },
+    {
+      "id": "D4-docx",
+      "ok": true,
+      "detail": "media=application/vnd.openxmlformats-officedocument.wordprocessingml.document chunks=1"
+    },
+    {
+      "id": "D5-context-built",
+      "ok": true,
+      "detail": "context_chars=1951 includes_txt_marker=True"
+    },
+    {
+      "id": "D6-fail-closed",
+      "ok": true,
+      "detail": "disguised_txt=True exe=True traversal=True"
+    }
+  ]
+}

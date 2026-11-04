@@ -1,0 +1,52 @@
+{
+  "phase": "CLOSURE-05 Phase E",
+  "passed": 9,
+  "total": 9,
+  "results": [
+    {
+      "id": "E1-author-v1",
+      "ok": true,
+      "detail": "artifact_id=art-ee60fa58873c5265 version=1"
+    },
+    {
+      "id": "E2-edit-immutable-history",
+      "ok": true,
+      "detail": "current=2 v1_preserved=True"
+    },
+    {
+      "id": "E3-stale-edit-refused",
+      "ok": true,
+      "detail": "base_version=1 after v2 refused"
+    },
+    {
+      "id": "E4-restore",
+      "ok": true,
+      "detail": "current=3 v3==v1_content"
+    },
+    {
+      "id": "E5-export-docx",
+      "ok": true,
+      "detail": "status=exported bytes=36644 content_in_document_xml=True"
+    },
+    {
+      "id": "E6-export-html",
+      "ok": true,
+      "detail": "status=exported html_has_content=True"
+    },
+    {
+      "id": "E7-export-xlsx",
+      "ok": true,
+      "detail": "status=exported sheet1_has_data=True"
+    },
+    {
+      "id": "E8-export-zip-bundle",
+      "ok": true,
+      "detail": "status=exported entries=['source.md', 'provenance.json'] provenance=True"
+    },
+    {
+      "id": "E9-unsupported-type-refused",
+      "ok": true,
+      "detail": "artifact_type='vbs' refused"
+    }
+  ]
+}

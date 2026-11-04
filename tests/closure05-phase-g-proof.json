@@ -1,0 +1,47 @@
+{
+  "phase": "CLOSURE-05 Phase G",
+  "passed": 8,
+  "total": 8,
+  "results": [
+    {
+      "id": "G1-legacy-fail-closed",
+      "ok": true,
+      "detail": "legacy bootstrap require_mutation_ready raises ContractError"
+    },
+    {
+      "id": "G2-secure-mode-gates-off",
+      "ok": true,
+      "detail": "gates_at_start={'adaptive_planner': False, 'hybrid_execution': False, 'nano_agents': False, 'model_router': False}"
+    },
+    {
+      "id": "G3-runtime-not-ready-refused",
+      "ok": true,
+      "detail": "enable with readiness 'unknown' rejected (runtime_not_ready)"
+    },
+    {
+      "id": "G4-dependency-ordered-enable",
+      "ok": true,
+      "detail": "hybrid_alone_refused=True gates={'adaptive_planner': True, 'hybrid_execution': True, 'nano_agents': False, 'model_router': False}"
+    },
+    {
+      "id": "G6-nano-gate-first",
+      "ok": true,
+      "detail": "nano execution with gate OFF raises ContractError before dispatch"
+    },
+    {
+      "id": "G5-nano-governed-execution",
+      "ok": true,
+      "detail": "nano_id=nano:prop-g5 disposition=AgentCompletionDisposition.COMPLETE summary='deterministic:verify one citation claim'"
+    },
+    {
+      "id": "G7-collaboration-routing",
+      "ok": true,
+      "detail": "parallel=parallel(task.decomposable_weak_coupling_to_parallel) joint=joint(task.high_complexity_to_joint) degraded=solo reason=parallel requires at least two eligible models; only 1 satisfied the quality/capability gate."
+    },
+    {
+      "id": "G8-active-run-protection",
+      "ok": true,
+      "detail": "disable_with_active_run_refused=True disable_after_finish_ok=True"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "phase": "CLOSURE-05B Part C (Adaptive Hybrid reliability)",
+  "reliability": "3/3 PASS",
+  "results": [
+    {
+      "task": "C1-simple",
+      "run_id": "2a463a986d4a4a79bd0025ab9957a2c7",
+      "status": "succeeded",
+      "wall_seconds": 304.0,
+      "calls": [
+        {
+          "adapter_id": "ollama:qwen3:1.7b",
+          "status": "complete",
+          "error": ""
+        },
+        {
+          "adapter_id": "ollama:dolphin-llama3:8b",
+          "status": "complete",
+          "error": ""
+        },
+        {
+          "adapter_id": "ollama:qwen3:1.7b",
+          "status": "complete",
+          "error": ""
+        }
+      ],
+      "planner_participation": "model_backed",
+      "hybrid_error": null,
+      "participants_completed": [
+        "ollama:dolphin-llama3:8b",
+        "ollama:qwen3:1.7b"
+      ],
+      "mode_trace_len": 2,
+      "provenance_persisted": true,
+      "ok": true
+    },
+    {
+      "task": "C2-moderate",
+      "run_id": "cfc5f19325554e10aa3d9248aa2dbd4a",
+      "status": "succeeded",
+      "wall_seconds": 234.6,
+      "calls": [
+        {
+          "adapter_id": "ollama:qwen3:1.7b",
+          "status": "complete",
+          "error": ""
+        },
+        {
+          "adapter_id": "ollama:dolphin-llama3:8b",
+          "status": "complete",
+          "error": ""
+        },
+        {
+          "adapter_id": "ollama:qwen3:1.7b",
+          "status": "complete",
+          "error": ""
+        }
+      ],
+      "planner_participation": "model_backed",
+      "hybrid_error": null,
+      "participants_completed": [
+        "ollama:dolphin-llama3:8b",
+        "ollama:qwen3:1.7b"
+      ],
+      "mode_trace_len": 2,
+      "provenance_persisted": true,
+      "ok": true
+    },
+    {
+      "task": "C3-escalation",
+      "run_id": "ed981ef858c54905a1e9a1f45d4045c2",
+      "status": "succeeded",
+      "wall_seconds": 578.1,
+      "calls": [
+        {
+          "adapter_id": "ollama:qwen3:1.7b",
+          "status": "complete",
+          "error": ""
+        },
+        {
+          "adapter_id": "ollama:dolphin-llama3:8b",
+          "status": "complete",
+          "error": ""
+        },
+        {
+          "adapter_id": "ollama:qwen3:1.7b",
+          "status": "complete",
+          "error": ""
+        },
+        {
+          "adapter_id": "ollama:dolphin-llama3:8b",
+          "status": "complete",
+          "error": ""
+        },
+        {
+          "adapter_id": "ollama:qwen3:1.7b",
+          "status": "complete",
+          "error": ""
+        }
+      ],
+      "planner_participation": "model_backed",
+      "hybrid_error": null,
+      "participants_completed": [
+        "ollama:dolphin-llama3:8b",
+        "ollama:qwen3:1.7b"
+      ],
+      "mode_trace_len": 3,
+      "provenance_persisted": true,
+      "ok": true
+    }
+  ]
+}

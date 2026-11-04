@@ -1,0 +1,40 @@
+[
+ {
+  "test_id": "REG-PARALLEL",
+  "actual": "status=succeeded participants=['ollama:dolphin-llama3:8b', 'ollama:qwen3:1.7b']",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "REG-INDEPENDENT",
+  "actual": "status=succeeded",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "REG-AI-COMPLEX",
+  "actual": "status=succeeded",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "REG-BROWSER",
+  "actual": "open_status=200",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "REG-COMMAND-CANCEL",
+  "actual": "cancel=cancelled orphans=0",
+  "verdict": "PASS",
+  "evidence": {}
+ },
+ {
+  "test_id": "REG-FRESH-STATE",
+  "actual": "cloud_providers=4 \u2014 all 4 entries are BUILT-IN tabitoken catalog profiles (BUILTIN_PROFILES in model_profiles.py), not user-configured cloud credentials; no API keys present",
+  "verdict": "PASS",
+  "evidence": {
+   "note": "built-in catalog, no user credentials"
+  }
+ }
+]
